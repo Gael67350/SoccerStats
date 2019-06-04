@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class HeatMap
 {
-    int data[][] = new int[SoccerField.MAX_WIDTH][SoccerField.MAX_HEIGHT];
+    private int data[][] = new int[SoccerField.MAX_WIDTH][SoccerField.MAX_HEIGHT];
 
     public HeatMap()
     {
