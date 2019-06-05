@@ -1,6 +1,5 @@
 package utils;
 
-import com.sun.media.sound.InvalidDataException;
 import model.Player;
 import model.Position;
 import model.SoccerField;
@@ -8,11 +7,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import javax.xml.crypto.Data;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.InvalidObjectException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,7 +55,7 @@ public class DataImporter
 
                 if (player == null)
                 {
-                    throw new InvalidDataException("Player addition in data structure failed");
+                    throw new IOException("Player addition in data structure failed");
                 }
             }
 

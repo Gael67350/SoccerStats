@@ -41,4 +41,40 @@ public class Position implements Comparable<Position>
     {
         return relatedPlayer;
     }
+
+    public Date getTimestamp()
+    {
+        return timestamp;
+    }
+
+    public double getPosX()
+    {
+        return pos.getX();
+    }
+
+    public double getPosY()
+    {
+        return pos.getY();
+    }
+
+
+    public float getHeading()
+    {
+        return heading;
+    }
+
+    public float getDirection()
+    {
+        return direction;
+    }
+
+    public float getEnergy()
+    {
+        return energy;
+    }
+
+    public float getSpeed()
+    {
+        return speed;
+    }
 }

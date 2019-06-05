@@ -55,7 +55,8 @@ public class SoccerField
     {
         if (!playerListing.contains(player))
         {
-            return playerListing.add(player);
+            boolean succes = playerListing.add(player);
+            return succes;
         }
 
         return false;

@@ -42,9 +42,9 @@ public class Player
     {
         int count = 0;
 
-        for(Position current : positions)
+        for (Position current : positions)
         {
-            count ++;
+            count++;
         }
 
         return count;
@@ -78,5 +78,13 @@ public class Player
     public int hashCode()
     {
         return Objects.hash(tagId);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Player{" +
+                "tagId=" + tagId +
+                '}';
     }
 }
