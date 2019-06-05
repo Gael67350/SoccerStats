@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +20,16 @@ public class SoccerField
             count += current.getRecordCount(currentDate);
         }
 
+        return count;
+    }
+
+    public int getRecordCount()
+    {
+        int count = 0;
+        for(Player current : playerListing)
+        {
+            count += current.getRecordCount();
+        }
         return count;
     }
 
