@@ -1,29 +1,36 @@
-package model;
+package main.java.model;
+
+import model.HeatMap;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public class Player {
+public class Player
+{
     private final int tagId;
     private float totalDistance;
     private HeatMap heatMap = new HeatMap();
 
-    public Player(int tagId) {
+    public Player(int tagId)
+    {
         this.tagId = tagId;
         totalDistance = 0;
     }
 
     private ArrayList<Position> positions = new ArrayList<>();
 
-    public int getTagId() {
+    public int getTagId()
+    {
         return tagId;
     }
 
-    public int getRecordCount(Date currentDate) {
+    public int getRecordCount(Date currentDate)
+    {
         int count = 0;
 
-        for (Position current : positions) {
+        for (Position current : positions)
+        {
             if (current.happensOn(currentDate))
                 count++;
         }
@@ -31,20 +38,36 @@ public class Player {
         return count;
     }
 
-    public Position getRecord(int index) {
+    public int getRecordCount()
+    {
+        int count = 0;
+
+        for(Position current : positions)
+        {
+            count ++;
+        }
+
+        return count;
+    }
+
+    public Position getRecord(int index)
+    {
         return positions.get(index);
     }
 
-    public HeatMap getHeatMap() {
+    public HeatMap getHeatMap()
+    {
         return heatMap;
     }
 
-    public ArrayList<Position> getPositions() {
+    public ArrayList<Position> getPositions()
+    {
         return positions;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
@@ -52,7 +75,8 @@ public class Player {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(tagId);
     }
 }
