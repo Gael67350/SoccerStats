@@ -5,10 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.java.model.SoccerField;
+import model.SoccerField;
+import utils.DataImporter;
 
 public class SoccerStats extends Application
 {
+    private SoccerField currentGame;
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -24,9 +27,19 @@ public class SoccerStats extends Application
         launch(args);
     }
 
-    private SoccerField openFile(String loadingPath)
+    private void openFile(String loadingPath)
     {
-        return null;
+        DataImporter importer = new DataImporter(loadingPath);
+
+        try
+        {
+           currentGame = importer.loadData();
+        }
+        catch (Exception e)
+        {
+            System.err.print("An error occured while loading input data");
+            e.printStackTrace();
+        }
     }
 
 
