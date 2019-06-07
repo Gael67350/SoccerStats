@@ -17,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="483.0" prefWidth="193.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -124,7 +124,7 @@
                <VBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </VBox.margin></Pane>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="80.0" prefWidth="590.0" spacing="8.0">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="54.0" prefWidth="690.0" spacing="8.0">
                <children>
                   <ImageView fx:id="playBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
