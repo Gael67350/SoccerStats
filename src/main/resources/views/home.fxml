@@ -35,7 +35,7 @@
                   </Separator>
                   <VBox fx:id="parametersPane" disable="true" prefHeight="110.0" prefWidth="141.0" spacing="8.0">
                      <children>
-                        <Label text="Playback speed" />
+                        <Label prefWidth="150.0" text="Playback speed" />
                         <FlowPane prefHeight="9.0" prefWidth="142.0">
                            <children>
                               <Spinner fx:id="playbackSpeedSpinner" editable="true" prefHeight="22.0" prefWidth="62.0">
@@ -50,7 +50,7 @@
                               </Label>
                            </children>
                         </FlowPane>
-                        <Label text="Trail length" />
+                        <Label prefWidth="150.0" text="Trail length" />
                         <FlowPane prefHeight="13.0" prefWidth="141.0">
                            <children>
                               <Spinner fx:id="trailLengthSpinner" editable="true" prefHeight="22.0" prefWidth="62.0">
@@ -73,7 +73,7 @@
                      <children>
                         <VBox fx:id="playerStatsPane" disable="true" prefHeight="125.0" prefWidth="148.0" spacing="2.0">
                            <children>
-                              <Label prefHeight="16.0" prefWidth="90.0" text="Player statisctics" />
+                              <Label prefHeight="16.0" prefWidth="150.0" text="Player statisctics" />
                               <Separator prefWidth="200.0" />
                               <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="150.0" text="Player ID : 12 " />
                               <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="150.0" text="Total distance : 500 m" />
@@ -87,7 +87,7 @@
                         </VBox>
                         <VBox fx:id="playerHeatmapPane" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
                            <children>
-                              <Label text="Player heatmap" />
+                              <Label prefWidth="150.0" text="Player heatmap" />
                               <Separator prefWidth="200.0" />
                               <RadioButton mnemonicParsing="false" prefWidth="150.0" text="none">
                                  <toggleGroup>
