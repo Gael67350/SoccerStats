@@ -85,6 +85,24 @@ public class Player
         }
     }
 
+    public boolean rewind(Date revTime)
+    {
+        totalDistance = 0;
+        heatMap = new HeatMap();
+        currentPositionIndex = -1;
+
+        return advanceToDate(revTime);
+    }
+
+    public Position getCurrentInfo()
+    {
+        return positions.get(currentPositionIndex);
+    }
+
+    public float getTotalDistance()
+    {
+        return totalDistance;
+    }
 
     //test methods
 
