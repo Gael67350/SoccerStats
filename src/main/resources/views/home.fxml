@@ -43,7 +43,7 @@
                                     <Insets right="4.0" />
                                  </FlowPane.margin>
                               </Spinner>
-                              <Label text="X">
+                              <Label prefWidth="80.0" text="X">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -58,7 +58,7 @@
                                     <Insets right="4.0" />
                                  </FlowPane.margin>
                               </Spinner>
-                              <Label prefHeight="25.0" prefWidth="60.0" text="time steps" />
+                              <Label prefHeight="25.0" prefWidth="80.0" text="time steps" />
                            </children>
                         </FlowPane>
                      </children>
@@ -75,11 +75,11 @@
                            <children>
                               <Label prefHeight="16.0" prefWidth="90.0" text="Player statisctics" />
                               <Separator prefWidth="200.0" />
-                              <Label fx:id="playerIDLabel" text="Player ID : 12 " />
-                              <Label fx:id="playerTotalDistanceLabel" text="Total distance : 500 m" />
-                              <Label fx:id="playerHeadingLabel" text="Heading : 30°" />
-                              <Label fx:id="playerDirectionLabel" text="Direction : 1.12" />
-                              <Label fx:id="playerEnergyLabel" text="Energy : 525.2" />
+                              <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="150.0" text="Player ID : 12 " />
+                              <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="150.0" text="Total distance : 500 m" />
+                              <Label fx:id="playerHeadingLabel" prefWidth="150.0" text="Heading : 30°" />
+                              <Label fx:id="playerDirectionLabel" prefWidth="150.0" text="Direction : 1.12" />
+                              <Label fx:id="playerEnergyLabel" prefWidth="150.0" text="Energy : 525.2" />
                            </children>
                            <padding>
                               <Insets left="8.0" right="8.0" />
@@ -89,13 +89,13 @@
                            <children>
                               <Label text="Player heatmap" />
                               <Separator prefWidth="200.0" />
-                              <RadioButton mnemonicParsing="false" text="none">
+                              <RadioButton mnemonicParsing="false" prefWidth="150.0" text="none">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="playerHeatmapToggleGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="color" toggleGroup="$playerHeatmapToggleGroup" />
-                              <RadioButton mnemonicParsing="false" text="histogram" toggleGroup="$playerHeatmapToggleGroup" />
+                              <RadioButton mnemonicParsing="false" prefWidth="150.0" text="color" toggleGroup="$playerHeatmapToggleGroup" />
+                              <RadioButton mnemonicParsing="false" prefWidth="150.0" text="histogram" toggleGroup="$playerHeatmapToggleGroup" />
                            </children>
                            <padding>
                               <Insets left="8.0" right="8.0" />
