@@ -146,7 +146,7 @@
                         <Insets />
                      </HBox.margin>
                   </Slider>
-                  <Label fx:id="currentTimeLabel" prefHeight="32.0" prefWidth="53.0" text="00:00.00" textAlignment="CENTER" />
+                  <Label fx:id="currentTimeLabel" prefHeight="32.0" prefWidth="74.0" text="00:00.00" wrapText="true" />
                </children>
                <padding>
                   <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
