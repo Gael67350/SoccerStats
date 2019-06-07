@@ -1,11 +1,11 @@
-package com.polytech.soccerStats.model.tests;
+package com.polytech.soccerStats.tests;
 
 import static org.junit.Assert.*;
 
 import com.polytech.soccerStats.model.Player;
+import com.polytech.soccerStats.sample.SoccerStats;
 import org.junit.Before;
 import org.junit.Test;
-import com.polytech.soccerStats.model.sample.SoccerStats;
 
 public class SimpleTest
 {

@@ -1,4 +1,4 @@
-package com.polytech.soccerStats.model.utils;
+package com.polytech.soccerStats.utils;
 
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.Position;

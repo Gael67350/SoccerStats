@@ -1,4 +1,4 @@
-package com.polytech.soccerStats.model.sample;
+package com.polytech.soccerStats.sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
-import com.polytech.soccerStats.model.utils.DataImporter;
+import com.polytech.soccerStats.utils.DataImporter;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class SoccerStats extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("com.polytech.soccerStats.model.sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
