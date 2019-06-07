@@ -1,8 +1,8 @@
-package utils;
+package com.polytech.soccerStats.model.utils;
 
-import model.Player;
-import model.Position;
-import model.SoccerField;
+import com.polytech.soccerStats.model.Player;
+import com.polytech.soccerStats.model.Position;
+import com.polytech.soccerStats.model.SoccerField;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

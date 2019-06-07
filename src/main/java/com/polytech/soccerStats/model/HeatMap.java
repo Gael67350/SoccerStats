@@ -1,6 +1,4 @@
-package model;
-
-import java.util.ArrayList;
+package com.polytech.soccerStats.model;
 
 public class HeatMap
 {

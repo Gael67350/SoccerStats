@@ -1,4 +1,4 @@
-package model;
+package com.polytech.soccerStats.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

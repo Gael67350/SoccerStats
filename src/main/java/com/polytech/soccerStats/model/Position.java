@@ -1,4 +1,4 @@
-package model;
+package com.polytech.soccerStats.model;
 
 import javafx.geometry.Point2D;
 
