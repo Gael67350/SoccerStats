@@ -24,4 +24,21 @@ public class HeatMap
     {
         return data[x][y];
     }
+
+    public int getMaximumValue()
+    {
+        int max = Integer.MIN_VALUE;
+
+        for(int[] currentArray : data)
+        {
+            for(int current : currentArray)
+            {
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+        }
+        return max;
+    }
 }
