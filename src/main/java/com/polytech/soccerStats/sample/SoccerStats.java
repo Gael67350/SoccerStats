@@ -1,14 +1,13 @@
 package com.polytech.soccerStats.sample;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
 import com.polytech.soccerStats.utils.DataImporter;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class SoccerStats extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("./views/home.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("view/home.fxml"));
 
         BorderPane root = loader.load();
 
