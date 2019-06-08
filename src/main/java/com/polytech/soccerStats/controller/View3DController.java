@@ -4,7 +4,6 @@ import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.utils.CameraManager;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -13,9 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.MeshView;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 
-public class View3DController implements Initializable {
+public class View3DController extends DelegatedController {
 
     @FXML
     private SubScene scene3D;
@@ -29,14 +27,10 @@ public class View3DController implements Initializable {
 
     private CameraManager cameraManager;
 
-    private MainController mainController;
-
-    public void injectMainController(MainController mainController) {
+    public void init(MainController mainController) {
         this.mainController = mainController;
-    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+        // Set message pane not visible
         messagePane.setVisible(false);
 
         // Init 3D view
@@ -45,6 +39,7 @@ public class View3DController implements Initializable {
         pane3D.getChildren().add(root3D);
         scene3D.setRoot(pane3D);
 
+        // Load soccerField object
         ObjModelImporter objModelImporter = new ObjModelImporter();
 
         try {
@@ -59,6 +54,7 @@ public class View3DController implements Initializable {
         Group soccerField = new Group(meshViews);
         root3D.getChildren().add(soccerField);
 
+        // Init camera
         Camera camera = new PerspectiveCamera(true);
         cameraManager = new CameraManager(camera, pane3D, root3D);
         cameraManager.resetCameraPosition();
