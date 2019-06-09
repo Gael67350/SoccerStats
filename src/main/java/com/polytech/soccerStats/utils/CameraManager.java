@@ -136,13 +136,19 @@ public class CameraManager {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case ALT:
-                        cameraXform2.setTranslateX(0.0);
-                        cameraXform2.setTranslateY(0.0);
-
-                        camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
-
-                        ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
-                        rx.setAngle(CAMERA_INITIAL_X_ANGLE);
+                        resetCameraPosition();
+                        break;
+                    case RIGHT:
+                        camera.setTranslateX(camera.getTranslateX() + SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case LEFT:
+                        camera.setTranslateX(camera.getTranslateX() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case UP:
+                        camera.setTranslateY(camera.getTranslateY() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case DOWN:
+                        camera.setTranslateY(camera.getTranslateY() + SHIFT_MULTIPLIER * TRACK_SPEED);
                         break;
                     default:
 

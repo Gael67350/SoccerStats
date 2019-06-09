@@ -7,6 +7,9 @@ import java.util.List;
 
 public class SoccerField
 {
+    public static final int MIN_HEIGHT = 0;
+    public static final int MIN_WIDTH = 0;
+
     public static final int MAX_HEIGHT = 68;
     public static final int MAX_WIDTH = 105;
 
