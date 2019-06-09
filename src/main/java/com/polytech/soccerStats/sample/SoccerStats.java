@@ -37,6 +37,7 @@ public class SoccerStats extends Application {
 
         try {
             currentGame = importer.loadData();
+
         } catch (Exception e) {
             System.err.print("An error occured while loading input data");
             e.printStackTrace();

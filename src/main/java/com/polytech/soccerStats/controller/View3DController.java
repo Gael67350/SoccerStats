@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class View3DController extends DelegatedController {
-    
+
     public static final double MAX_HEIGHT = 34;
     public static final double MAX_WIDTH = 52.25;
 
@@ -41,7 +41,17 @@ public class View3DController extends DelegatedController {
 
     public void init(MainController mainController) {
         this.mainController = mainController;
+    }
 
+    public void addPlayer(Player player, Position position) {
+        PlayerCursor cursor = new PlayerCursor(position);
+        playerCursors.put(player, cursor);
+
+        // Display the player on the soccer field
+        root3D.getChildren().add(cursor);
+    }
+
+    public void init3DView() {
         // Set message pane not visible
         messagePane.setVisible(false);
 
@@ -63,8 +73,7 @@ public class View3DController extends DelegatedController {
         }
 
         MeshView[] meshViews = objModelImporter.getImport();
-        Group soccerField = new Group(meshViews);
-        root3D.getChildren().add(soccerField);
+        root3D.getChildren().add(new Group(meshViews));
 
         // Init camera
         Camera camera = new PerspectiveCamera(true);
@@ -77,14 +86,6 @@ public class View3DController extends DelegatedController {
         Player p = new Player(5);
         Position pos = new Position(new Date(), 52.25f, 34.f, (float) Math.PI / 4.f, 0, 0, 0, p);
         addPlayer(p, pos);
-    }
-
-    public void addPlayer(Player player, Position position) {
-        PlayerCursor cursor = new PlayerCursor(position);
-        playerCursors.put(player, cursor);
-
-        // Display the player on the soccer field
-        root3D.getChildren().add(cursor);
     }
 
     public static Point2D mapPosition(double x, double y) {

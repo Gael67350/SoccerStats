@@ -14,5 +14,6 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         view3DController.init(this);
+        view3DController.init3DView();
     }
 }
