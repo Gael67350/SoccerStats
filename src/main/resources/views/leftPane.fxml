@@ -26,7 +26,7 @@
                         <Insets bottom="2.0" top="2.0" />
                     </VBox.margin>
                 </Separator>
-                <VBox fx:id="parametersPane" disable="true" prefHeight="110.0" prefWidth="141.0" spacing="8.0">
+                <VBox fx:id="parametersPane" prefHeight="110.0" prefWidth="141.0" spacing="8.0">
                     <children>
                         <Label prefWidth="150.0" text="Playback speed" />
                         <FlowPane prefHeight="9.0" prefWidth="142.0">
@@ -64,38 +64,38 @@
                 </VBox>
                 <VBox fx:id="playerDataPane" spacing="12.0">
                     <children>
-                        <VBox fx:id="playerStatsPane" disable="true" prefHeight="125.0" prefWidth="148.0" spacing="2.0">
+                        <VBox fx:id="playerStatsPane" prefHeight="125.0" prefWidth="148.0" spacing="2.0">
                             <children>
                                 <Label prefHeight="16.0" prefWidth="150.0" text="Player statisctics" />
                                 <Separator prefWidth="200.0" />
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                                      <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="76.0" text="Player ID : " />
-                              <Label text="15" />
+                               <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="76.0" text="Player ID : " />
+                               <Label fx:id="idValue" text="15" />
                            </children>
                         </FlowPane>
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                                      <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="112.0" text="Total distance :" />
-                              <Label text="150" />
+                               <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="112.0" text="Total distance :" />
+                               <Label fx:id="totDistanceValue" text="150" />
                            </children>
                         </FlowPane>
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                                      <Label fx:id="playerHeadingLabel" prefHeight="16.0" prefWidth="72.0" text="Heading : " />
-                              <Label text="60°" />
+                               <Label fx:id="playerHeadingLabel" prefHeight="16.0" prefWidth="72.0" text="Heading : " />
+                               <Label fx:id="headingValue" text="60°" />
                            </children>
                         </FlowPane>
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                                      <Label fx:id="playerDirectionLabel" prefHeight="16.0" prefWidth="76.0" text="Direction : " />
-                              <Label text="1.12" />
+                               <Label fx:id="playerDirectionLabel" prefHeight="16.0" prefWidth="76.0" text="Direction : " />
+                               <Label fx:id="directionValue" text="1.12" />
                            </children>
                         </FlowPane>
                         <FlowPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                                      <Label fx:id="playerEnergyLabel" prefHeight="16.0" prefWidth="62.0" text="Energy : " />
-                              <Label text="525.2" />
+                               <Label fx:id="playerEnergyLabel" prefHeight="16.0" prefWidth="62.0" text="Energy : " />
+                               <Label fx:id="energyValue" text="525.2" />
                            </children>
                         </FlowPane>
                             </children>
@@ -103,17 +103,17 @@
                                 <Insets left="8.0" right="8.0" />
                             </padding>
                         </VBox>
-                        <VBox fx:id="playerHeatmapPane" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+                        <VBox fx:id="playerHeatmapPane" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
                             <children>
                                 <Label prefWidth="150.0" text="Player heatmap" />
                                 <Separator prefWidth="200.0" />
-                                <RadioButton mnemonicParsing="false" prefWidth="150.0" text="none">
+                                <RadioButton fx:id="noneRD" mnemonicParsing="false" prefWidth="150.0" text="none">
                                     <toggleGroup>
                                         <ToggleGroup fx:id="playerHeatmapToggleGroup" />
                                     </toggleGroup>
                                 </RadioButton>
-                                <RadioButton mnemonicParsing="false" prefWidth="150.0" text="color" toggleGroup="$playerHeatmapToggleGroup" />
-                                <RadioButton mnemonicParsing="false" prefWidth="150.0" text="histogram" toggleGroup="$playerHeatmapToggleGroup" />
+                                <RadioButton fx:id="colorRD" mnemonicParsing="false" prefWidth="150.0" text="color" toggleGroup="$playerHeatmapToggleGroup" />
+                                <RadioButton fx:id="histogramRD" mnemonicParsing="false" prefWidth="150.0" text="histogram" toggleGroup="$playerHeatmapToggleGroup" />
                             </children>
                             <padding>
                                 <Insets left="8.0" right="8.0" />
