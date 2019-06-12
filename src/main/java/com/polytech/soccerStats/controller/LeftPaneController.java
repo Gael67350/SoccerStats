@@ -1,5 +1,6 @@
 package com.polytech.soccerStats.controller;
 
+import com.polytech.soccerStats.model.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -77,6 +78,15 @@ public class LeftPaneController extends DelegatedController
         headingValue.setVisible(false);
         directionValue.setVisible(false);
         energyValue.setVisible(false);
+    }
+
+    public void updatePlayer(Player toDisplay)
+    {
+        idValue.setText(""+toDisplay.getTagId());
+        totDistanceValue.setText(""+toDisplay.getTotalDistance());
+        headingValue.setText(""+toDisplay.getCurrentInfo().getHeading());
+        directionValue.setText(""+toDisplay.getCurrentInfo().getDirection());
+        energyValue.setText(""+toDisplay.getCurrentInfo().getEnergy());
     }
 
     @Override
