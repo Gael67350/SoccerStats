@@ -3,13 +3,12 @@ package com.polytech.soccerStats.tests;
 import static org.junit.Assert.*;
 
 import com.polytech.soccerStats.model.Player;
-import com.polytech.soccerStats.sample.SoccerStats;
+import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.utils.DataImporter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SimpleTest
 {
