@@ -4,8 +4,7 @@ import javafx.geometry.Point2D;
 
 import java.util.Date;
 
-public class Position implements Comparable<Position>
-{
+public class Position implements Comparable<Position> {
     private Date timestamp;
     private Point2D pos;
     private float heading;
@@ -15,8 +14,7 @@ public class Position implements Comparable<Position>
 
     private Player relatedPlayer;
 
-    public Position(Date timestamp, float xPos, float yPos, float heading, float direction, float energy, float speed, Player relatedPlayer)
-    {
+    public Position(Date timestamp, float xPos, float yPos, float heading, float direction, float energy, float speed, Player relatedPlayer) {
         this.timestamp = timestamp;
         pos = new Point2D(xPos, yPos);
         this.heading = heading;
@@ -27,54 +25,47 @@ public class Position implements Comparable<Position>
     }
 
     @Override
-    public int compareTo(Position o)
-    {
+    public int compareTo(Position o) {
         return this.timestamp.compareTo(o.timestamp);
     }
 
-    public boolean happensOn(Date currentDate)
-    {
+    public boolean happensOn(Date currentDate) {
         return (timestamp.compareTo(currentDate) == 0);
     }
 
-    public Player getRelatedPlayer()
-    {
+    public Player getRelatedPlayer() {
         return relatedPlayer;
     }
 
-    public Date getTimestamp()
-    {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public double getPosX()
-    {
+    public double getPosX() {
         return pos.getX();
     }
 
-    public double getPosY()
-    {
+    public double getPosY() {
         return pos.getY();
     }
 
+    public Point2D getPos() {
+        return new Point2D(pos.getX(), pos.getY());
+    }
 
-    public float getHeading()
-    {
+    public float getHeading() {
         return heading;
     }
 
-    public float getDirection()
-    {
+    public float getDirection() {
         return direction;
     }
 
-    public float getEnergy()
-    {
+    public float getEnergy() {
         return energy;
     }
 
-    public float getSpeed()
-    {
+    public float getSpeed() {
         return speed;
     }
 }

@@ -16,7 +16,9 @@ import javafx.scene.SubScene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.MeshView;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -44,11 +46,19 @@ public class View3DController extends DelegatedController {
     }
 
     public void addPlayer(Player player, Position position) {
-        PlayerCursor cursor = new PlayerCursor(position);
-        playerCursors.put(player, cursor);
+        try {
+            PlayerCursor cursor = new PlayerCursor(position);
+            playerCursors.put(player, cursor);
 
-        // Display the player on the soccer field
-        root3D.getChildren().add(cursor);
+            // Display the player on the soccer field
+            Position pos2 = new Position(new Date(), 105, 68, (float) Math.PI / 4.f, 0, 0, 0, player);
+            cursor.moveTo(pos2);
+
+            root3D.getChildren().add(cursor);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     public void init3DView() {
@@ -84,7 +94,7 @@ public class View3DController extends DelegatedController {
 
         // Only for debug purpose
         Player p = new Player(5);
-        Position pos = new Position(new Date(), 52.25f, 34.f, (float) Math.PI / 4.f, 0, 0, 0, p);
+        Position pos = new Position(new Date(2018, Calendar.JUNE, 8), 52.25f, 34.f, (float) Math.PI / 4.f, 0, 0, 0, p);
         addPlayer(p, pos);
     }
 
@@ -94,5 +104,9 @@ public class View3DController extends DelegatedController {
         }
 
         return new Point2D(x - MAX_WIDTH, y - MAX_HEIGHT);
+    }
+
+    public static Point2D mapPosition(Point2D position) {
+        return mapPosition(position.getX(), position.getY());
     }
 }
