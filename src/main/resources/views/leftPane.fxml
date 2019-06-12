@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="483.0" prefWidth="193.0" BorderPane.alignment="CENTER"  xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.polytech.soccerStats.Application.Controller">
+<BorderPane prefHeight="483.0" prefWidth="193.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.polytech.soccerStats.controller.LeftPaneController">
     <BorderPane.margin>
         <Insets />
     </BorderPane.margin>
@@ -68,11 +68,36 @@
                             <children>
                                 <Label prefHeight="16.0" prefWidth="150.0" text="Player statisctics" />
                                 <Separator prefWidth="200.0" />
-                                <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="150.0" text="Player ID : 12 " />
-                                <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="150.0" text="Total distance : 500 m" />
-                                <Label fx:id="playerHeadingLabel" prefWidth="150.0" text="Heading : 30°" />
-                                <Label fx:id="playerDirectionLabel" prefWidth="150.0" text="Direction : 1.12" />
-                                <Label fx:id="playerEnergyLabel" prefWidth="150.0" text="Energy : 525.2" />
+                        <FlowPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                                      <Label fx:id="playerIDLabel" prefHeight="17.0" prefWidth="76.0" text="Player ID : " />
+                              <Label text="15" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                                      <Label fx:id="playerTotalDistanceLabel" prefHeight="17.0" prefWidth="112.0" text="Total distance :" />
+                              <Label text="150" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                                      <Label fx:id="playerHeadingLabel" prefHeight="16.0" prefWidth="72.0" text="Heading : " />
+                              <Label text="60°" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                                      <Label fx:id="playerDirectionLabel" prefHeight="16.0" prefWidth="76.0" text="Direction : " />
+                              <Label text="1.12" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                                      <Label fx:id="playerEnergyLabel" prefHeight="16.0" prefWidth="62.0" text="Energy : " />
+                              <Label text="525.2" />
+                           </children>
+                        </FlowPane>
                             </children>
                             <padding>
                                 <Insets left="8.0" right="8.0" />

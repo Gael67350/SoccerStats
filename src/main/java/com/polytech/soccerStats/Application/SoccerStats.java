@@ -19,7 +19,7 @@ public class SoccerStats extends Application
     public void start(Stage primaryStage) throws Exception
     {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("views/home.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("./views/home.fxml"));
 
         BorderPane root = loader.load();
 

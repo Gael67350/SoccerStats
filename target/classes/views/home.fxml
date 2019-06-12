@@ -17,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="954.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.polytech.soccerStats.controller.MainController">
    <left>
-      <fx:include fx:id="view3D" source="leftPane.fxml" />
+      <fx:include fx:id="leftPane" source="leftPane.fxml" />
    </left>
    <center>
       <VBox prefHeight="462.0" prefWidth="720.0" BorderPane.alignment="CENTER">
