@@ -1,0 +1,178 @@
+package com.polytech.soccerStats.utils;
+
+import com.polytech.soccerStats.event.CameraUpdateEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+
+public class CameraManager {
+
+    private static final double CAMERA_INITIAL_DISTANCE = -5;
+    private static final double CAMERA_INITIAL_X_ANGLE = 0.0;
+    private static final double CAMERA_INITIAL_Y_ANGLE = 0.0;
+    private static final double CAMERA_NEAR_CLIP = 0.1;
+    private static final double CAMERA_FAR_CLIP = 10000.0;
+    private static final double CONTROL_MULTIPLIER = 0.1;
+    private static final double SHIFT_MULTIPLIER = 10.0;
+    private static final double MOUSE_SPEED = 0.05;
+    private static final double ROTATION_SPEED = 2.0;
+    private static final double TRACK_SPEED = 0.6;
+
+    private final Group cameraXform = new Group();
+    private final Group cameraXform2 = new Group();
+    private Rotate rx = new Rotate();
+    private Rotate ry = new Rotate();
+    private double mousePosX;
+    private double mousePosY;
+    private double mouseOldX;
+    private double mouseOldY;
+    private double mouseDeltaX;
+    private double mouseDeltaY;
+
+    private Camera camera;
+    final private Node mainRoot;
+
+    public CameraManager(Camera cam, Node mainRoot, Group root) {
+
+        camera = cam;
+        this.mainRoot = mainRoot;
+
+        root.getChildren().add(cameraXform);
+        cameraXform.getChildren().add(cameraXform2);
+        cameraXform2.getChildren().add(camera);
+
+        rx.setAxis(Rotate.X_AXIS);
+        ry.setAxis(Rotate.Y_AXIS);
+        cameraXform.getTransforms().addAll(ry, rx);
+
+        resetCameraPosition();
+
+        // Add keyboard and mouse handler
+        handleKeyboard(root);
+        handleMouse(root);
+    }
+
+    public void setRotateX(double value) {
+        rx.setAngle(value);
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+    }
+
+    public void setRotateY(double value) {
+        ry.setAngle(value);
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void resetCameraPosition() {
+        camera.setNearClip(CAMERA_NEAR_CLIP);
+        camera.setFarClip(CAMERA_FAR_CLIP);
+        camera.setTranslateZ(-170);
+        ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
+        rx.setAngle(-90);
+
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+    }
+
+    private void handleMouse(final Node root) {
+        mainRoot.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                mousePosX = me.getSceneX();
+                mousePosY = me.getSceneY();
+                mouseOldX = me.getSceneX();
+                mouseOldY = me.getSceneY();
+
+                // Set focus on the mainRoot to be able to detect key press
+                mainRoot.requestFocus();
+            }
+        });
+        mainRoot.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                mouseOldX = mousePosX;
+                mouseOldY = mousePosY;
+                mousePosX = me.getSceneX();
+                mousePosY = me.getSceneY();
+                mouseDeltaX = (mousePosX - mouseOldX);
+                mouseDeltaY = (mousePosY - mouseOldY);
+
+                double modifier = 1.0;
+
+                if (me.isControlDown()) {
+                    modifier = CONTROL_MULTIPLIER;
+                }
+                if (me.isShiftDown()) {
+                    modifier = SHIFT_MULTIPLIER;
+                }
+                if (me.isPrimaryButtonDown()) {
+                    ry.setAngle(ry.getAngle() + mouseDeltaX * modifier * ROTATION_SPEED);
+                    rx.setAngle(rx.getAngle() - mouseDeltaY * modifier * ROTATION_SPEED);
+
+                    camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+                } else if (me.isSecondaryButtonDown()) {
+                    cameraXform2.setTranslateX(cameraXform2.getTranslateX() - mouseDeltaX * MOUSE_SPEED * modifier * TRACK_SPEED);
+                    cameraXform2.setTranslateY(cameraXform2.getTranslateY() - mouseDeltaY * MOUSE_SPEED * modifier * TRACK_SPEED);
+
+                    camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+                }
+            }
+        });
+        mainRoot.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                double modifier = 1.0;
+
+                if (event.isControlDown()) {
+                    modifier = CONTROL_MULTIPLIER;
+                }
+                if (event.isShiftDown()) {
+                    modifier = SHIFT_MULTIPLIER;
+                }
+                double z = camera.getTranslateZ();
+                double newZ = z + event.getDeltaY() * MOUSE_SPEED * modifier;
+                camera.setTranslateZ(newZ);
+
+                camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+            }
+        });
+    }
+
+    private void handleKeyboard(final Node root) {
+        mainRoot.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case ALT:
+                        resetCameraPosition();
+                        break;
+                    case RIGHT:
+                        camera.setTranslateX(camera.getTranslateX() + SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case LEFT:
+                        camera.setTranslateX(camera.getTranslateX() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case UP:
+                        camera.setTranslateY(camera.getTranslateY() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    case DOWN:
+                        camera.setTranslateY(camera.getTranslateY() + SHIFT_MULTIPLIER * TRACK_SPEED);
+                        break;
+                    default:
+
+                }
+
+                camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
+            }
+        });
+    }
+
+}

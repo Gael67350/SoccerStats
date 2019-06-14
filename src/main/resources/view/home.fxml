@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -22,12 +21,9 @@
       <fx:include fx:id="leftPane" source="leftPane.fxml" />
    </left>
    <center>
-      <VBox prefHeight="462.0" prefWidth="720.0" BorderPane.alignment="CENTER">
+      <VBox alignment="BOTTOM_CENTER" prefHeight="462.0" prefWidth="720.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="pane3D" prefHeight="459.0" prefWidth="590.0">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-               </VBox.margin></Pane>
+            <fx:include fx:id="view3D" source="view3D.fxml" />
             <HBox alignment="BOTTOM_CENTER" prefHeight="68.0" prefWidth="820.0" spacing="8.0">
                <children>
                   <ImageView fx:id="playBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -57,6 +53,9 @@
                </padding>
             </HBox>
          </children>
+         <BorderPane.margin>
+            <Insets top="12.0" />
+         </BorderPane.margin>
       </VBox>
    </center>
 </BorderPane>

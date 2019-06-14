@@ -1,3 +1,6 @@
+    @FXML
+    private View3DController view3DController;
+        view3DController.load(soccerField);
 package com.polytech.soccerStats.controller;
 
 import com.polytech.soccerStats.Application.SoccerStats;
@@ -35,3 +38,4 @@ public class MainController implements Initializable
 
     }
 }
+        view3DController.init(this);
