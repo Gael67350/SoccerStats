@@ -3,6 +3,7 @@ package com.polytech.soccerStats.controller;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.event.CameraUpdateEvent;
+import com.polytech.soccerStats.event.PlayerSelectedEvent;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.PlayerCursor;
 import com.polytech.soccerStats.model.Position;
@@ -14,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
@@ -38,6 +40,8 @@ public class View3DController extends DelegatedController {
     private CameraManager cameraManager;
 
     private HashMap<Player, PlayerCursor> playerCursors = new HashMap<>();
+
+    private Player selectedPlayer;
 
     public void init(MainController mainController) {
         this.mainController = mainController;
@@ -64,6 +68,30 @@ public class View3DController extends DelegatedController {
         // Display the player on the soccer field
         root3D.getChildren().add(cursor);
         root3D.getChildren().add(cursor.getBillboard());
+    }
+
+    public Player getSelectedPlayer() {
+        return selectedPlayer;
+    }
+
+    public void setSelectedPlayer(PlayerCursor selectedPlayerCursor) {
+        removeSelectedPlayer();
+        selectedPlayerCursor.setMaterial(new PhongMaterial(Color.AQUA));
+        this.selectedPlayer = selectedPlayerCursor.getPlayer();
+    }
+
+    public void removeSelectedPlayer() {
+        if (selectedPlayer != null) {
+            PlayerCursor cursor = playerCursors.get(selectedPlayer);
+
+            if (cursor != null) {
+                cursor.setMaterial(new PhongMaterial(Color.ORANGE));
+            }
+        }
+    }
+
+    public boolean hasSelectedPlayer() {
+        return (selectedPlayer != null);
     }
 
     private void init3DView() {
@@ -103,6 +131,13 @@ public class View3DController extends DelegatedController {
             @Override
             public void handle(CameraUpdateEvent event) {
                 playerCursors.forEach((player, cursor) -> cursor.getBillboard().update(camera));
+            }
+        });
+
+        root3D.addEventHandler(PlayerSelectedEvent.PLAYER_UPDATED, new EventHandler<PlayerSelectedEvent>() {
+            @Override
+            public void handle(PlayerSelectedEvent event) {
+                setSelectedPlayer(event.getPlayerCursor());
             }
         });
     }

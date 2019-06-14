@@ -3,8 +3,11 @@ package com.polytech.soccerStats.model;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.controller.View3DController;
+import com.polytech.soccerStats.event.PlayerSelectedEvent;
 import com.polytech.soccerStats.utils.Fx3DGroup;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.MeshView;
 
@@ -30,6 +33,16 @@ public class PlayerCursor extends Fx3DGroup {
         Point2D mappedPosition = View3DController.mapPosition(position.getPos());
         set3DTranslate(mappedPosition.getX(), -0.75, mappedPosition.getY());
         set3DScale(2);
+
+        // Handle mouse click event
+        PlayerCursor that = this;
+
+        setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                fireEvent(new PlayerSelectedEvent(that));
+            }
+        });
     }
 
     public void moveTo(Position target) {
