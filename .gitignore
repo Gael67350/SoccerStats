@@ -2,6 +2,9 @@
 *.class
 target/*
 
+# Lib directory
+!lib/*.jar
+
 # Log file
 *.log
 
