@@ -10,6 +10,9 @@ public class SoccerField
     public static final int MAX_HEIGHT = 68;
     public static final int MAX_WIDTH = 105;
 
+    private int playbackSpeed = 1;
+    private int trailLength = 5;
+
     private ArrayList<Player> playerListing = new ArrayList<>();
 
     public int getRecordCount(Date currentDate)
@@ -60,5 +63,25 @@ public class SoccerField
         }
 
         return false;
+    }
+
+    public int getPlaybackSpeed()
+    {
+        return playbackSpeed;
+    }
+
+    public int getTrailLength()
+    {
+        return trailLength;
+    }
+
+    public void setPlaybackSpeed(int playbackSpeed)
+    {
+        this.playbackSpeed = playbackSpeed;
+    }
+
+    public void setTrailLength(int trailLength)
+    {
+        this.trailLength = trailLength;
     }
 }
