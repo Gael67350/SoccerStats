@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -113,7 +114,8 @@ public class View3DController extends DelegatedController {
         }
 
         MeshView[] meshViews = objModelImporter.getImport();
-        root3D.getChildren().add(new Group(meshViews));
+        Group soccerField = new Group(meshViews);
+        root3D.getChildren().add(soccerField);
 
         // Init ambient light
         AmbientLight ambientLight = new AmbientLight(Color.WHITESMOKE);
@@ -138,6 +140,16 @@ public class View3DController extends DelegatedController {
             @Override
             public void handle(PlayerSelectedEvent event) {
                 setSelectedPlayer(event.getPlayerCursor());
+            }
+        });
+
+        soccerField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(hasSelectedPlayer()) {
+                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(selectedPlayer)));
+                    removeSelectedPlayer();
+                }
             }
         });
     }
