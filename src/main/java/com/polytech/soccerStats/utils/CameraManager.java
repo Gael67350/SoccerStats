@@ -13,8 +13,8 @@ import javafx.stage.WindowEvent;
 
 public class CameraManager {
 
-    private static final double CAMERA_INITIAL_DISTANCE = -5;
-    private static final double CAMERA_INITIAL_X_ANGLE = 0.0;
+    private static final double CAMERA_INITIAL_DISTANCE = -170.0;
+    private static final double CAMERA_INITIAL_X_ANGLE = -90.0;
     private static final double CAMERA_INITIAL_Y_ANGLE = 0.0;
     private static final double CAMERA_NEAR_CLIP = 0.1;
     private static final double CAMERA_FAR_CLIP = 10000.0;
@@ -39,7 +39,6 @@ public class CameraManager {
     final private Node mainRoot;
 
     public CameraManager(Camera cam, Node mainRoot, Group root) {
-
         camera = cam;
         this.mainRoot = mainRoot;
 
@@ -75,9 +74,11 @@ public class CameraManager {
     public void resetCameraPosition() {
         camera.setNearClip(CAMERA_NEAR_CLIP);
         camera.setFarClip(CAMERA_FAR_CLIP);
-        camera.setTranslateZ(-170);
+        camera.setTranslateX(0);
+        camera.setTranslateY(0);
+        camera.setTranslateZ(CAMERA_INITIAL_DISTANCE);
         ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
-        rx.setAngle(-90);
+        rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 
         camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
     }
@@ -155,16 +156,16 @@ public class CameraManager {
                         resetCameraPosition();
                         break;
                     case RIGHT:
-                        camera.setTranslateX(camera.getTranslateX() + SHIFT_MULTIPLIER * TRACK_SPEED);
+                        camera.setTranslateX(camera.getTranslateX() + TRACK_SPEED);
                         break;
                     case LEFT:
-                        camera.setTranslateX(camera.getTranslateX() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        camera.setTranslateX(camera.getTranslateX() - TRACK_SPEED);
                         break;
                     case UP:
-                        camera.setTranslateY(camera.getTranslateY() - SHIFT_MULTIPLIER * TRACK_SPEED);
+                        camera.setTranslateY(camera.getTranslateY() - TRACK_SPEED);
                         break;
                     case DOWN:
-                        camera.setTranslateY(camera.getTranslateY() + SHIFT_MULTIPLIER * TRACK_SPEED);
+                        camera.setTranslateY(camera.getTranslateY() + TRACK_SPEED);
                         break;
                     default:
 
