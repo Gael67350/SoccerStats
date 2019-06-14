@@ -1,6 +1,3 @@
-    @FXML
-    private View3DController view3DController;
-        view3DController.load(soccerField);
 package com.polytech.soccerStats.controller;
 
 import com.polytech.soccerStats.Application.SoccerStats;
@@ -20,16 +17,21 @@ public class MainController implements Initializable
     private LeftPaneController leftPaneController;
     private SoccerStats app;
 
+    @FXML
+    private View3DController view3DController;
 
     public void loadMatch(SoccerField soccerField) throws IOException
     {
         leftPaneController.load(soccerField);
+        view3DController.load(soccerField);
+
     }
 
     public void initSubControllers(SoccerStats app)
     {
         this.app = app;
         leftPaneController.init(this,app);
+        view3DController.init(this,app);
     }
 
     @Override
@@ -38,4 +40,3 @@ public class MainController implements Initializable
 
     }
 }
-        view3DController.init(this);
