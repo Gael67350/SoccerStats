@@ -1,7 +1,6 @@
 package com.polytech.soccerStats.model;
 
 import com.polytech.soccerStats.utils.Fx3DGroup;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.image.Image;
@@ -36,15 +35,18 @@ public class Billboard extends Fx3DGroup {
         material.setDiffuseMap(new Image(billboardImgIS));
         billboardBox.setMaterial(material);
 
+        billboardBox.setScaleX(2);
+        billboardBox.setScaleY(2);
+        billboardBox.setScaleZ(2);
+
         getChildren().add(billboardBox);
         set3DTranslate(0, -2, 0);
-        set3DScale(2);
     }
 
     public void update(Camera camera) {
         Point3D to = camera.localToScene(Point3D.ZERO);
         Point3D yDir = new Point3D(0, 1, 0);
-        Point3D billboardOffset = new Point3D(0, -1, 0);
+        Point3D billboardOffset = new Point3D(0, -1.25, 0);
 
         Point3D from = relatedPlayerCursor.localToScene(billboardOffset);
 

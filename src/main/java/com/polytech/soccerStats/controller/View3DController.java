@@ -4,16 +4,20 @@ import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.event.CameraUpdateEvent;
-import com.polytech.soccerStats.model.*;
+import com.polytech.soccerStats.event.PlayerSelectedEvent;
+import com.polytech.soccerStats.model.Player;
+import com.polytech.soccerStats.model.PlayerCursor;
+import com.polytech.soccerStats.model.Position;
+import com.polytech.soccerStats.model.SoccerField;
 import com.polytech.soccerStats.utils.CameraManager;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.SubScene;
+import javafx.scene.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
@@ -40,7 +44,7 @@ public class View3DController extends DelegatedController
 
     private HashMap<Player, PlayerCursor> playerCursors = new HashMap<>();
 
-    private HashMap<Player, Billboard> playerBillboards = new HashMap<>();
+    private Player selectedPlayer;
 
     public void init(MainController mainController, SoccerStats app)
     {
@@ -68,14 +72,35 @@ public class View3DController extends DelegatedController
     public void addPlayer(Player player, Position position) throws IOException
     {
         PlayerCursor cursor = new PlayerCursor(position);
-        Billboard billboard = new Billboard(cursor);
-
         playerCursors.put(player, cursor);
-        playerBillboards.put(player, billboard);
 
         // Display the player on the soccer field
         root3D.getChildren().add(cursor);
-        root3D.getChildren().add(billboard);
+        root3D.getChildren().add(cursor.getBillboard());
+    }
+
+    public Player getSelectedPlayer() {
+        return selectedPlayer;
+    }
+
+    public void setSelectedPlayer(PlayerCursor selectedPlayerCursor) {
+        removeSelectedPlayer();
+        selectedPlayerCursor.setMaterial(new PhongMaterial(Color.AQUA));
+        this.selectedPlayer = selectedPlayerCursor.getPlayer();
+    }
+
+    public void removeSelectedPlayer() {
+        if (selectedPlayer != null) {
+            PlayerCursor cursor = playerCursors.get(selectedPlayer);
+
+            if (cursor != null) {
+                cursor.setMaterial(new PhongMaterial(Color.ORANGE));
+            }
+        }
+    }
+
+    public boolean hasSelectedPlayer() {
+        return (selectedPlayer != null);
     }
 
     private void init3DView()
@@ -101,7 +126,12 @@ public class View3DController extends DelegatedController
         }
 
         MeshView[] meshViews = objModelImporter.getImport();
-        root3D.getChildren().add(new Group(meshViews));
+        Group soccerField = new Group(meshViews);
+        root3D.getChildren().add(soccerField);
+
+        // Init ambient light
+        AmbientLight ambientLight = new AmbientLight(Color.WHITESMOKE);
+        root3D.getChildren().add(ambientLight);
 
         // Init camera
         Camera camera = new PerspectiveCamera(true);
@@ -109,13 +139,30 @@ public class View3DController extends DelegatedController
         cameraManager.resetCameraPosition();
 
         scene3D.setCamera(camera);
+        scene3D.setFill(Color.gray(0.6));
 
         root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>()
         {
             @Override
-            public void handle(CameraUpdateEvent event)
-            {
-                playerBillboards.forEach((player, billboard) -> billboard.update(camera));
+            public void handle(CameraUpdateEvent event) {
+                playerCursors.forEach((player, cursor) -> cursor.getBillboard().update(camera));
+            }
+        });
+
+        root3D.addEventHandler(PlayerSelectedEvent.PLAYER_UPDATED, new EventHandler<PlayerSelectedEvent>() {
+            @Override
+            public void handle(PlayerSelectedEvent event) {
+                setSelectedPlayer(event.getPlayerCursor());
+            }
+        });
+
+        soccerField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(hasSelectedPlayer()) {
+                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(selectedPlayer)));
+                    removeSelectedPlayer();
+                }
             }
         });
     }

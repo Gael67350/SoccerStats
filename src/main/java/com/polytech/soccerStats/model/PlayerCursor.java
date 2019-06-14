@@ -3,30 +3,46 @@ package com.polytech.soccerStats.model;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.controller.View3DController;
+import com.polytech.soccerStats.event.PlayerSelectedEvent;
 import com.polytech.soccerStats.utils.Fx3DGroup;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Material;
 import javafx.scene.shape.MeshView;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class PlayerCursor extends Fx3DGroup {
 
     private Position currentPosition;
-    private Fx3DGroup cursor = new Fx3DGroup();
+    private Billboard billboard;
+    private MeshView[] meshViews;
 
-    public PlayerCursor(Position position) {
+    public PlayerCursor(Position position) throws IOException {
         currentPosition = position;
-
-        getChildren().add(cursor);
+        billboard = new Billboard(this);
+        meshViews = loadMeshs();
 
         // Display player cursor
-        cursor.getChildren().addAll(loadMeshs());
-        cursor.set3DRotate(0, Math.toDegrees(position.getHeading()), 0);
+        getChildren().addAll(meshViews);
+        set3DRotate(0, Math.toDegrees(position.getHeading()), 0);
 
         // Set cursor position
         Point2D mappedPosition = View3DController.mapPosition(position.getPos());
         set3DTranslate(mappedPosition.getX(), -0.75, mappedPosition.getY());
         set3DScale(2);
+
+        // Handle mouse click event
+        PlayerCursor that = this;
+
+        setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                fireEvent(new PlayerSelectedEvent(that));
+            }
+        });
     }
 
     public void moveTo(Position target) {
@@ -40,6 +56,16 @@ public class PlayerCursor extends Fx3DGroup {
 
     public Player getPlayer() {
         return currentPosition.getRelatedPlayer();
+    }
+
+    public Billboard getBillboard() {
+        return billboard;
+    }
+
+    public void setMaterial(Material material) {
+        for (MeshView m : meshViews) {
+            m.setMaterial(material);
+        }
     }
 
     private static MeshView[] loadMeshs() {
