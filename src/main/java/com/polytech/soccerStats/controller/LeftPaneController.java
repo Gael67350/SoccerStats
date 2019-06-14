@@ -1,10 +1,18 @@
 package com.polytech.soccerStats.controller;
 
+import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import sun.applet.Main;
+
+import java.io.File;
 
 public class LeftPaneController extends DelegatedController
 {
@@ -57,9 +65,17 @@ public class LeftPaneController extends DelegatedController
 
     private SoccerField currentMatch;
 
-    @Override
-    public void init(MainController controller)
+    public void load(SoccerField currentMatch)
     {
+        this.currentMatch = currentMatch;
+        enableParametersSection();
+    }
+
+    @Override
+    public void init(MainController controller, SoccerStats LDapp)
+    {
+        this.app = LDapp;
+
         //heatmap handler
 
         playerHeatmapToggleGroup.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) ->
@@ -106,17 +122,26 @@ public class LeftPaneController extends DelegatedController
             }
         });
 
+        // openFile listener
+        openBtn.setOnAction(event ->
+        {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            File selected = fileChooser.showOpenDialog(new Stage());
+
+            if(selected != null)
+            {
+                app.openFile(selected.getPath());
+            }
+
+        });
+
         disablePlayerSection();
         disableParametersSection();
         currentMatch = new SoccerField();
         enableParametersSection();
     }
 
-    public void load(SoccerField currentMatch)
-    {
-        this.currentMatch = currentMatch;
-        enableParametersSection();
-    }
 
     public void unloadMatch()
     {

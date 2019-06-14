@@ -1,5 +1,6 @@
 package com.polytech.soccerStats.Application;
 
+import com.polytech.soccerStats.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,8 @@ public class SoccerStats extends Application
 {
     private SoccerField currentGame;
 
+    private MainController mainController;
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -22,6 +25,9 @@ public class SoccerStats extends Application
         loader.setLocation(getClass().getClassLoader().getResource("./views/home.fxml"));
 
         BorderPane root = loader.load();
+
+        mainController = loader.getController();
+        mainController.initSubControllers(this);
 
         Scene scene = new Scene(root);
         primaryStage.setResizable(false);
