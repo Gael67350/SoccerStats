@@ -45,7 +45,7 @@ public class SimpleTest
                 toCheck = current;
             }
         }
-        
+
         assertEquals( 54.98,toCheck.getRecord(10000).getPosX(),0.01);
         //RÃ©cupÃ©rer l'enregistrement pour l'index 10000 et vÃ©rifier que la position en x du joueur avec l'id 5 est Ã©gale Ã  65.57721
     }

@@ -131,15 +131,21 @@ public class LeftPaneController extends DelegatedController
 
             if(selected != null)
             {
+                if(currentMatch != null)
+                {
+                    currentMatch = null;
+                    disableParametersSection();
+                    disablePlayerSection();
+                }
+
                 app.openFile(selected.getPath());
+                enableParametersSection();
             }
 
         });
 
         disablePlayerSection();
         disableParametersSection();
-        currentMatch = new SoccerField();
-        enableParametersSection();
     }
 
 

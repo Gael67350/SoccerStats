@@ -48,6 +48,7 @@ public class SoccerStats extends Application
         try
         {
             currentGame = importer.loadData();
+            mainController.loadMatch(currentGame);
         }
         catch (Exception e)
         {
