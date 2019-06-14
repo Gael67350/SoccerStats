@@ -2,6 +2,7 @@ package com.polytech.soccerStats.controller;
 
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.event.CameraUpdateEvent;
 import com.polytech.soccerStats.model.*;
 import com.polytech.soccerStats.utils.CameraManager;
@@ -19,7 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class View3DController extends DelegatedController {
+public class View3DController extends DelegatedController
+{
 
     public static final double MAX_HEIGHT = 34;
     public static final double MAX_WIDTH = 52.5;
@@ -40,16 +42,21 @@ public class View3DController extends DelegatedController {
 
     private HashMap<Player, Billboard> playerBillboards = new HashMap<>();
 
-    public void init(MainController mainController) {
+    public void init(MainController mainController, SoccerStats app)
+    {
         this.mainController = mainController;
+        this.app = app;
     }
 
-    public void load(SoccerField soccerField) throws IOException {
+    public void load(SoccerField soccerField) throws IOException
+    {
         init3DView();
 
-        for (Player p : soccerField.getPlayers()) {
+        for (Player p : soccerField.getPlayers())
+        {
             // TODO : This action is not safe
-            if (p.getPositions().size() > 0) {
+            if (p.getPositions().size() > 0)
+            {
                 addPlayer(p, p.getPositions().get(0));
             }
         }
@@ -58,7 +65,8 @@ public class View3DController extends DelegatedController {
         messagePane.setVisible(false);
     }
 
-    public void addPlayer(Player player, Position position) throws IOException {
+    public void addPlayer(Player player, Position position) throws IOException
+    {
         PlayerCursor cursor = new PlayerCursor(position);
         Billboard billboard = new Billboard(cursor);
 
@@ -70,7 +78,8 @@ public class View3DController extends DelegatedController {
         root3D.getChildren().add(billboard);
     }
 
-    private void init3DView() {
+    private void init3DView()
+    {
         // Init 3D view
         pane3D = new Pane();
         root3D = new Group();
@@ -80,10 +89,13 @@ public class View3DController extends DelegatedController {
         // Load soccerField object
         ObjModelImporter objModelImporter = new ObjModelImporter();
 
-        try {
+        try
+        {
             URL objUrl = getClass().getClassLoader().getResource("obj/soccer.obj");
             objModelImporter.read(objUrl);
-        } catch (ImportException e) {
+        }
+        catch (ImportException e)
+        {
             System.err.println(e.getMessage());
             System.exit(-1);
         }
@@ -98,23 +110,33 @@ public class View3DController extends DelegatedController {
 
         scene3D.setCamera(camera);
 
-        root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>() {
+        root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>()
+        {
             @Override
-            public void handle(CameraUpdateEvent event) {
+            public void handle(CameraUpdateEvent event)
+            {
                 playerBillboards.forEach((player, billboard) -> billboard.update(camera));
             }
         });
     }
 
-    public static Point2D mapPosition(double x, double y) {
-        if (x < SoccerField.MIN_WIDTH || x > SoccerField.MAX_WIDTH || y < SoccerField.MIN_HEIGHT || y > SoccerField.MAX_HEIGHT) {
+    public static Point2D mapPosition(double x, double y)
+    {
+        if (x < SoccerField.MIN_WIDTH || x > SoccerField.MAX_WIDTH || y < SoccerField.MIN_HEIGHT || y > SoccerField.MAX_HEIGHT)
+        {
             throw new IllegalArgumentException("These positions are outside the soccer field");
         }
 
         return new Point2D(x - MAX_WIDTH, y - MAX_HEIGHT);
     }
 
-    public static Point2D mapPosition(Point2D position) {
+    public static Point2D mapPosition(Point2D position)
+    {
         return mapPosition(position.getX(), position.getY());
+    }
+
+    public void reinitCamera()
+    {
+        cameraManager.resetCameraPosition();
     }
 }

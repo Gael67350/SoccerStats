@@ -74,6 +74,7 @@ public class LeftPaneController extends DelegatedController
     @Override
     public void init(MainController controller, SoccerStats LDapp)
     {
+        this.mainController = controller;
         this.app = LDapp;
 
         //heatmap handler
@@ -133,15 +134,20 @@ public class LeftPaneController extends DelegatedController
             {
                 if(currentMatch != null)
                 {
-                    currentMatch = null;
-                    disableParametersSection();
-                    disablePlayerSection();
+                    unloadMatch();
                 }
 
                 app.openFile(selected.getPath());
                 enableParametersSection();
+                topViewBtn.setDisable(false);
             }
 
+        });
+
+        // topViewHandler
+        topViewBtn.setOnAction(event ->
+        {
+            mainController.launchCameraReinitialiser();
         });
 
         disablePlayerSection();
@@ -153,6 +159,7 @@ public class LeftPaneController extends DelegatedController
     {
         disablePlayerSection();
         disableParametersSection();
+        topViewBtn.setDisable(true);
 
         playbackSpeedSpinner.getValueFactory().setValue(null);
         trailLengthSpinner.getValueFactory().setValue(null);

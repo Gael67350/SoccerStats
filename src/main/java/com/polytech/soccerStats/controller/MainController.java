@@ -34,6 +34,11 @@ public class MainController implements Initializable
         view3DController.init(this,app);
     }
 
+    public void launchCameraReinitialiser()
+    {
+        view3DController.reinitCamera();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
