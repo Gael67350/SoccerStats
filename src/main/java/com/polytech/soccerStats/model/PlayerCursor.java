@@ -5,6 +5,7 @@ import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.controller.View3DController;
 import com.polytech.soccerStats.utils.Fx3DGroup;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Material;
 import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
@@ -14,13 +15,15 @@ public class PlayerCursor extends Fx3DGroup {
 
     private Position currentPosition;
     private Billboard billboard;
+    private MeshView[] meshViews;
 
     public PlayerCursor(Position position) throws IOException {
         currentPosition = position;
         billboard = new Billboard(this);
+        meshViews = loadMeshs();
 
         // Display player cursor
-        getChildren().addAll(loadMeshs());
+        getChildren().addAll(meshViews);
         set3DRotate(0, Math.toDegrees(position.getHeading()), 0);
 
         // Set cursor position
@@ -44,6 +47,12 @@ public class PlayerCursor extends Fx3DGroup {
 
     public Billboard getBillboard() {
         return billboard;
+    }
+
+    public void setMaterial(Material material) {
+        for (MeshView m : meshViews) {
+            m.setMaterial(material);
+        }
     }
 
     private static MeshView[] loadMeshs() {

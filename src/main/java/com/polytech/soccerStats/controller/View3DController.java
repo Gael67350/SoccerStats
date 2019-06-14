@@ -3,16 +3,17 @@ package com.polytech.soccerStats.controller;
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.polytech.soccerStats.event.CameraUpdateEvent;
-import com.polytech.soccerStats.model.*;
+import com.polytech.soccerStats.model.Player;
+import com.polytech.soccerStats.model.PlayerCursor;
+import com.polytech.soccerStats.model.Position;
+import com.polytech.soccerStats.model.SoccerField;
 import com.polytech.soccerStats.utils.CameraManager;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.SubScene;
+import javafx.scene.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
@@ -86,12 +87,17 @@ public class View3DController extends DelegatedController {
         MeshView[] meshViews = objModelImporter.getImport();
         root3D.getChildren().add(new Group(meshViews));
 
+        // Init ambient light
+        AmbientLight ambientLight = new AmbientLight(Color.WHITESMOKE);
+        root3D.getChildren().add(ambientLight);
+
         // Init camera
         Camera camera = new PerspectiveCamera(true);
         cameraManager = new CameraManager(camera, pane3D, root3D);
         cameraManager.resetCameraPosition();
 
         scene3D.setCamera(camera);
+        scene3D.setFill(Color.gray(0.6));
 
         root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>() {
             @Override
