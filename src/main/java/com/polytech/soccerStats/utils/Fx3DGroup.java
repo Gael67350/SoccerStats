@@ -138,9 +138,9 @@ public class Fx3DGroup extends Group {
         Point3D zVec = to.subtract(from).normalize();
         Point3D xVec = zVec.normalize().crossProduct(ydir).normalize();
         Point3D yVec = xVec.crossProduct(zVec).normalize();
-        return new Affine(xVec.getX(), yVec.getX(), zVec.getX(), from.getX(),
-                xVec.getY(), yVec.getY(), zVec.getY(), from.getY(),
-                xVec.getZ(), yVec.getZ(), zVec.getZ(), from.getZ());
+        return new Affine(-xVec.getX(), yVec.getX(), zVec.getX(), from.getX(),
+                -xVec.getY(), yVec.getY(), zVec.getY(), from.getY(),
+                -xVec.getZ(), yVec.getZ(), zVec.getZ(), from.getZ());
     }
 
     public void reset() {

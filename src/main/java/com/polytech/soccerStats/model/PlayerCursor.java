@@ -7,21 +7,21 @@ import com.polytech.soccerStats.utils.Fx3DGroup;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.MeshView;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class PlayerCursor extends Fx3DGroup {
 
     private Position currentPosition;
-    private Fx3DGroup cursor = new Fx3DGroup();
+    private Billboard billboard;
 
-    public PlayerCursor(Position position) {
+    public PlayerCursor(Position position) throws IOException {
         currentPosition = position;
-
-        getChildren().add(cursor);
+        billboard = new Billboard(this);
 
         // Display player cursor
-        cursor.getChildren().addAll(loadMeshs());
-        cursor.set3DRotate(0, Math.toDegrees(position.getHeading()), 0);
+        getChildren().addAll(loadMeshs());
+        set3DRotate(0, Math.toDegrees(position.getHeading()), 0);
 
         // Set cursor position
         Point2D mappedPosition = View3DController.mapPosition(position.getPos());
@@ -40,6 +40,10 @@ public class PlayerCursor extends Fx3DGroup {
 
     public Player getPlayer() {
         return currentPosition.getRelatedPlayer();
+    }
+
+    public Billboard getBillboard() {
+        return billboard;
     }
 
     private static MeshView[] loadMeshs() {

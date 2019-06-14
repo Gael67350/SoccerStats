@@ -38,8 +38,6 @@ public class View3DController extends DelegatedController {
 
     private HashMap<Player, PlayerCursor> playerCursors = new HashMap<>();
 
-    private HashMap<Player, Billboard> playerBillboards = new HashMap<>();
-
     public void init(MainController mainController) {
         this.mainController = mainController;
     }
@@ -60,14 +58,11 @@ public class View3DController extends DelegatedController {
 
     public void addPlayer(Player player, Position position) throws IOException {
         PlayerCursor cursor = new PlayerCursor(position);
-        Billboard billboard = new Billboard(cursor);
-
         playerCursors.put(player, cursor);
-        playerBillboards.put(player, billboard);
 
         // Display the player on the soccer field
         root3D.getChildren().add(cursor);
-        root3D.getChildren().add(billboard);
+        root3D.getChildren().add(cursor.getBillboard());
     }
 
     private void init3DView() {
@@ -101,7 +96,7 @@ public class View3DController extends DelegatedController {
         root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>() {
             @Override
             public void handle(CameraUpdateEvent event) {
-                playerBillboards.forEach((player, billboard) -> billboard.update(camera));
+                playerCursors.forEach((player, cursor) -> cursor.getBillboard().update(camera));
             }
         });
     }
