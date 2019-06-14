@@ -57,28 +57,7 @@ public class Player
                                               );
                 }
 
-                int xToIncrement = (int)(positions.get(currentPositionIndex+1).getPosX());
-                int yToIncrement = (int)(positions.get(currentPositionIndex+1).getPosY());
-
-                if(xToIncrement < 0)
-                {
-                    xToIncrement = 0;
-                }
-                else if(xToIncrement > SoccerField.MAX_WIDTH)
-                {
-                    xToIncrement = SoccerField.MAX_WIDTH;
-                }
-
-                if(yToIncrement < 0)
-                {
-                    yToIncrement = 0;
-                }
-                else if(yToIncrement > SoccerField.MAX_HEIGHT)
-                {
-                    yToIncrement = SoccerField.MAX_HEIGHT;
-                }
-
-                heatMap.incrementAtPoint(xToIncrement,yToIncrement);
+                heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex+1).getPosX()), (int)(positions.get(currentPositionIndex+1).getPosY()));
             }
 
             return true;

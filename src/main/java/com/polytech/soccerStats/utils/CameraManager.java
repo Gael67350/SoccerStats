@@ -1,11 +1,15 @@
 package com.polytech.soccerStats.utils;
 
+import com.polytech.soccerStats.event.CameraUpdateEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class CameraManager {
 
@@ -32,10 +36,12 @@ public class CameraManager {
     private double mouseDeltaY;
 
     private Camera camera;
+    final private Node mainRoot;
 
     public CameraManager(Camera cam, Node mainRoot, Group root) {
 
         camera = cam;
+        this.mainRoot = mainRoot;
 
         root.getChildren().add(cameraXform);
         cameraXform.getChildren().add(cameraXform2);
@@ -48,16 +54,18 @@ public class CameraManager {
         resetCameraPosition();
 
         // Add keyboard and mouse handler
-        handleKeyboard(mainRoot, root);
-        handleMouse(mainRoot, root);
+        handleKeyboard(root);
+        handleMouse(root);
     }
 
     public void setRotateX(double value) {
         rx.setAngle(value);
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
     }
 
     public void setRotateY(double value) {
         ry.setAngle(value);
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
     }
 
     public Camera getCamera() {
@@ -70,9 +78,11 @@ public class CameraManager {
         camera.setTranslateZ(-170);
         ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
         rx.setAngle(-90);
+
+        camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
     }
 
-    private void handleMouse(final Node mainRoot, final Node root) {
+    private void handleMouse(final Node root) {
         mainRoot.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -106,9 +116,13 @@ public class CameraManager {
                 if (me.isPrimaryButtonDown()) {
                     ry.setAngle(ry.getAngle() + mouseDeltaX * modifier * ROTATION_SPEED);
                     rx.setAngle(rx.getAngle() - mouseDeltaY * modifier * ROTATION_SPEED);
+
+                    camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
                 } else if (me.isSecondaryButtonDown()) {
                     cameraXform2.setTranslateX(cameraXform2.getTranslateX() - mouseDeltaX * MOUSE_SPEED * modifier * TRACK_SPEED);
                     cameraXform2.setTranslateY(cameraXform2.getTranslateY() - mouseDeltaY * MOUSE_SPEED * modifier * TRACK_SPEED);
+
+                    camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
                 }
             }
         });
@@ -126,11 +140,13 @@ public class CameraManager {
                 double z = camera.getTranslateZ();
                 double newZ = z + event.getDeltaY() * MOUSE_SPEED * modifier;
                 camera.setTranslateZ(newZ);
+
+                camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
             }
         });
     }
 
-    private void handleKeyboard(Node mainRoot, final Node root) {
+    private void handleKeyboard(final Node root) {
         mainRoot.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -153,6 +169,8 @@ public class CameraManager {
                     default:
 
                 }
+
+                camera.fireEvent(new CameraUpdateEvent(camera, mainRoot));
             }
         });
     }

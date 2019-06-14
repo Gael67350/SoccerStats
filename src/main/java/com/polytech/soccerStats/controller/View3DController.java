@@ -2,11 +2,10 @@ package com.polytech.soccerStats.controller;
 
 import com.interactivemesh.jfx.importer.ImportException;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import com.polytech.soccerStats.model.Player;
-import com.polytech.soccerStats.model.PlayerCursor;
-import com.polytech.soccerStats.model.Position;
-import com.polytech.soccerStats.model.SoccerField;
+import com.polytech.soccerStats.event.CameraUpdateEvent;
+import com.polytech.soccerStats.model.*;
 import com.polytech.soccerStats.utils.CameraManager;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Camera;
@@ -18,14 +17,12 @@ import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class View3DController extends DelegatedController {
 
     public static final double MAX_HEIGHT = 34;
-    public static final double MAX_WIDTH = 52.25;
+    public static final double MAX_WIDTH = 52.5;
 
     @FXML
     private SubScene scene3D;
@@ -41,30 +38,39 @@ public class View3DController extends DelegatedController {
 
     private HashMap<Player, PlayerCursor> playerCursors = new HashMap<>();
 
+    private HashMap<Player, Billboard> playerBillboards = new HashMap<>();
+
     public void init(MainController mainController) {
         this.mainController = mainController;
     }
 
-    public void addPlayer(Player player, Position position) {
-        try {
-            PlayerCursor cursor = new PlayerCursor(position);
-            playerCursors.put(player, cursor);
+    public void load(SoccerField soccerField) throws IOException {
+        init3DView();
 
-            // Display the player on the soccer field
-            Position pos2 = new Position(new Date(), 105, 68, (float) Math.PI / 4.f, 0, 0, 0, player);
-            cursor.moveTo(pos2);
-
-            root3D.getChildren().add(cursor);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
+        for (Player p : soccerField.getPlayers()) {
+            // TODO : This action is not safe
+            if (p.getPositions().size() > 0) {
+                addPlayer(p, p.getPositions().get(0));
+            }
         }
-    }
 
-    public void init3DView() {
         // Set message pane not visible
         messagePane.setVisible(false);
+    }
 
+    public void addPlayer(Player player, Position position) throws IOException {
+        PlayerCursor cursor = new PlayerCursor(position);
+        Billboard billboard = new Billboard(cursor);
+
+        playerCursors.put(player, cursor);
+        playerBillboards.put(player, billboard);
+
+        // Display the player on the soccer field
+        root3D.getChildren().add(cursor);
+        root3D.getChildren().add(billboard);
+    }
+
+    private void init3DView() {
         // Init 3D view
         pane3D = new Pane();
         root3D = new Group();
@@ -92,10 +98,12 @@ public class View3DController extends DelegatedController {
 
         scene3D.setCamera(camera);
 
-        // Only for debug purpose
-        Player p = new Player(5);
-        Position pos = new Position(new Date(2018, Calendar.JUNE, 8), 52.25f, 34.f, (float) Math.PI / 4.f, 0, 0, 0, p);
-        addPlayer(p, pos);
+        root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>() {
+            @Override
+            public void handle(CameraUpdateEvent event) {
+                playerBillboards.forEach((player, billboard) -> billboard.update(camera));
+            }
+        });
     }
 
     public static Point2D mapPosition(double x, double y) {

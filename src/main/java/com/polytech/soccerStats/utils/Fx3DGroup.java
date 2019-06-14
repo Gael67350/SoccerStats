@@ -2,7 +2,10 @@ package com.polytech.soccerStats.utils;
 
 import java.util.Collection;
 
+import com.polytech.soccerStats.controller.MainController;
+import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
+import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
