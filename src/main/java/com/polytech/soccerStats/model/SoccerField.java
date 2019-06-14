@@ -15,6 +15,8 @@ public class SoccerField
 
     private ArrayList<Player> playerListing = new ArrayList<>();
 
+    private Player HighlightedPlayer;
+
     public int getRecordCount(Date currentDate)
     {
         int count = 0;
@@ -83,5 +85,15 @@ public class SoccerField
     public void setTrailLength(int trailLength)
     {
         this.trailLength = trailLength;
+    }
+
+    public Player getHighlightedPlayer()
+    {
+        return HighlightedPlayer;
+    }
+
+    public void setPlayerListing(ArrayList<Player> playerListing)
+    {
+        this.playerListing = playerListing;
     }
 }
