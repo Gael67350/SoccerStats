@@ -167,23 +167,24 @@ public class LeftPaneController extends DelegatedController
         currentMatch = null;
     }
 
-    private void enablePlayerSection()
+    public void enablePlayerSection()
     {
         playerHeatmapToggleGroup.selectToggle(noneRD);
 
         playerDataPane.setDisable(false);
-
-        idValue.setText("");
-        totDistanceValue.setText("");
-        headingValue.setText("");
-        directionValue.setText("");
-        energyValue.setText("");
 
         idValue.setVisible(true);
         totDistanceValue.setVisible(true);
         headingValue.setVisible(true);
         directionValue.setVisible(true);
         energyValue.setVisible(true);
+
+
+        idValue.setText(""+currentMatch.getHighlightedPlayer().getTagId());
+        totDistanceValue.setText(""+currentMatch.getHighlightedPlayer().getTotalDistance());
+        headingValue.setText(""+currentMatch.getHighlightedPlayer().getCurrentInfo().getHeading());
+        directionValue.setText(""+currentMatch.getHighlightedPlayer().getCurrentInfo().getDirection());
+        energyValue.setText(""+currentMatch.getHighlightedPlayer().getCurrentInfo().getEnergy());
     }
 
     private void enableParametersSection()
@@ -202,6 +203,12 @@ public class LeftPaneController extends DelegatedController
         headingValue.setVisible(false);
         directionValue.setVisible(false);
         energyValue.setVisible(false);
+
+        idValue.setText("");
+        totDistanceValue.setText("");
+        headingValue.setText("");
+        directionValue.setText("");
+        energyValue.setText("");
     }
 
     private void disableParametersSection()

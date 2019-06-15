@@ -39,6 +39,15 @@ public class MainController implements Initializable
         view3DController.reinitCamera();
     }
 
+    public void HiglightPlayer()
+    {
+        leftPaneController.enablePlayerSection();
+    }
+    public  void DisableHighlighting()
+    {
+        leftPaneController.disablePlayerSection();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
