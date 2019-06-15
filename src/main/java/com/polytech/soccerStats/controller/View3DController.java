@@ -163,8 +163,11 @@ public class View3DController extends DelegatedController
             @Override
             public void handle(PlayerSelectedEvent event)
             {
-                setSelectedPlayer(event.getPlayerCursor());
-                mainController.HiglightPlayer();
+                if (event.getPlayerCursor().getPlayer().getCurrentInfo() != null)
+                {
+                    setSelectedPlayer(event.getPlayerCursor());
+                    mainController.HiglightPlayer();
+                }
             }
         });
 
