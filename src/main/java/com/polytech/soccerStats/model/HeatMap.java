@@ -2,13 +2,13 @@ package com.polytech.soccerStats.model;
 
 public class HeatMap
 {
-    private int data[][] = new int[SoccerField.MAX_WIDTH][SoccerField.MAX_HEIGHT];
+    private int data[][] = new int[SoccerField.MAX_WIDTH+1][SoccerField.MAX_HEIGHT+1];
 
     public HeatMap()
     {
-        for(int x = 0 ; x<SoccerField.MAX_WIDTH ; x++)
+        for(int x = 0 ; x<SoccerField.MAX_WIDTH+1 ; x++)
         {
-            for(int y = 0 ; y<SoccerField.MAX_HEIGHT ; y++)
+            for(int y = 0 ; y<SoccerField.MAX_HEIGHT+1 ; y++)
             {
                 data[x][y] = 0;
             }

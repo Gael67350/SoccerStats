@@ -14,13 +14,15 @@ import javafx.scene.shape.MeshView;
 import java.io.IOException;
 import java.net.URL;
 
-public class PlayerCursor extends Fx3DGroup {
+public class PlayerCursor extends Fx3DGroup
+{
 
     private Position currentPosition;
     private Billboard billboard;
     private MeshView[] meshViews;
 
-    public PlayerCursor(Position position) throws IOException {
+    public PlayerCursor(Position position) throws IOException
+    {
         currentPosition = position;
         billboard = new Billboard(this);
         meshViews = loadMeshs();
@@ -37,15 +39,18 @@ public class PlayerCursor extends Fx3DGroup {
         // Handle mouse click event
         PlayerCursor that = this;
 
-        setOnMouseClicked(new EventHandler<MouseEvent>() {
+        setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event)
+            {
                 fireEvent(new PlayerSelectedEvent(that));
             }
         });
     }
 
-    public void moveTo(Position target) {
+    public void moveTo(Position target)
+    {
         Point2D targetedMappedPosition = View3DController.mapPosition(target.getPos());
         Point2D currentMappedPosition = View3DController.mapPosition(currentPosition.getPos());
         Point2D newPos = targetedMappedPosition.subtract(currentMappedPosition);
@@ -54,28 +59,36 @@ public class PlayerCursor extends Fx3DGroup {
         currentPosition = target;
     }
 
-    public Player getPlayer() {
+    public Player getPlayer()
+    {
         return currentPosition.getRelatedPlayer();
     }
 
-    public Billboard getBillboard() {
+    public Billboard getBillboard()
+    {
         return billboard;
     }
 
-    public void setMaterial(Material material) {
-        for (MeshView m : meshViews) {
+    public void setMaterial(Material material)
+    {
+        for (MeshView m : meshViews)
+        {
             m.setMaterial(material);
         }
     }
 
-    private static MeshView[] loadMeshs() {
+    private static MeshView[] loadMeshs()
+    {
         // Load cursor object
         ObjModelImporter objModelImporter = new ObjModelImporter();
 
-        try {
+        try
+        {
             URL objUrl = PlayerCursor.class.getClassLoader().getResource("obj/player.obj");
             objModelImporter.read(objUrl);
-        } catch (ImportException e) {
+        }
+        catch (ImportException e)
+        {
             System.err.println(e.getMessage());
             System.exit(-1);
         }

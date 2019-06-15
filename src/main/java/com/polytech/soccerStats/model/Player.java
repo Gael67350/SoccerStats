@@ -33,7 +33,7 @@ public class Player
         }
         else
         {
-            while(positions.get(currentPositionIndex+1).getTimestamp().before(newDate))
+            while(positions.get(currentPositionIndex+1).getTimestamp().before(newDate) || positions.get(currentPositionIndex+1).getTimestamp().equals(newDate))
             {
                 currentPositionIndex ++;
                 if(currentPositionIndex > 0)
@@ -75,7 +75,10 @@ public class Player
 
     public Position getCurrentInfo()
     {
-        return positions.get(currentPositionIndex);
+        if(currentPositionIndex != -1)
+            return positions.get(currentPositionIndex);
+        else
+            return null;
     }
 
     public float getTotalDistance()
@@ -128,6 +131,16 @@ public class Player
     public ArrayList<Position> getPositions()
     {
         return positions;
+    }
+
+    public Date getEarliestDate()
+    {
+        return positions.get(0).getTimestamp();
+    }
+
+    public long getTimeGap()
+    {
+        return positions.get(1).getTimestamp().getTime() - positions.get(1).getTimestamp().getTime();
     }
 
     @Override

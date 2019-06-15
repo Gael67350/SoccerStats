@@ -19,7 +19,9 @@ public class SoccerField
     private ArrayList<Player> playerListing = new ArrayList<>();
 
     private Player HighlightedPlayer;
-    private Player selectedPlayer;
+
+    private Date beginSimulationTime = new Date();
+    private long waitTime = Long.MAX_VALUE;
 
     public int getRecordCount(Date currentDate)
     {
@@ -65,10 +67,33 @@ public class SoccerField
         if (!playerListing.contains(player))
         {
             boolean succes = playerListing.add(player);
+
             return succes;
         }
 
         return false;
+    }
+
+    public void initialiseSimulation()
+    {
+        for(Player current : playerListing)
+        {
+            //updating begin time & time gap
+            if(current.getEarliestDate().before(beginSimulationTime))
+            {
+                beginSimulationTime = current.getEarliestDate();
+            }
+
+            if(current.getTimeGap() < waitTime)
+            {
+                waitTime = current.getTimeGap();
+            }
+        }
+
+        for (Player current: playerListing)
+        {
+            current.advanceToDate(beginSimulationTime);
+        }
     }
 
     public int getPlaybackSpeed()
