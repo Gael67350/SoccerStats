@@ -10,6 +10,7 @@ import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
 import com.polytech.soccerStats.utils.DataImporter;
 
+import java.sql.Time;
 import java.util.List;
 
 public class SoccerStats extends Application
@@ -41,6 +42,15 @@ public class SoccerStats extends Application
         launch(args);
     }
 
+    public void testLecture() throws Exception
+    {
+        while(1 == 1)
+        {
+            Thread.sleep(currentGame.getWaitTime()/currentGame.getPlaybackSpeed());
+            currentGame.advanceSim();
+        }
+    }
+
     public void openFile(String loadingPath)
     {
         DataImporter importer = new DataImporter(loadingPath);
@@ -55,6 +65,7 @@ public class SoccerStats extends Application
             System.err.print("An error occured while loading input data");
             e.printStackTrace();
         }
+
     }
 
     //methods for test

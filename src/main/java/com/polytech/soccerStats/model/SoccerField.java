@@ -1,9 +1,6 @@
 package com.polytech.soccerStats.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class SoccerField
 {
@@ -20,7 +17,11 @@ public class SoccerField
 
     private Player HighlightedPlayer;
 
-    private Date beginSimulationTime = new Date();
+    private Date beginSimulationTime;
+    private Date endSimulationTime;
+
+    private Calendar simulationTime;
+
     private long waitTime = Long.MAX_VALUE;
 
     public int getRecordCount(Date currentDate)
@@ -79,9 +80,22 @@ public class SoccerField
         for(Player current : playerListing)
         {
             //updating begin time & time gap
-            if(current.getEarliestDate().before(beginSimulationTime))
+            if(beginSimulationTime == null)
             {
                 beginSimulationTime = current.getEarliestDate();
+            }
+            else if(current.getEarliestDate().before(beginSimulationTime))
+            {
+                beginSimulationTime = current.getEarliestDate();
+            }
+
+            if(endSimulationTime == null)
+            {
+                endSimulationTime = current.getEarliestDate();
+            }
+            else if(endSimulationTime.before(current.getEarliestDate()))
+            {
+                endSimulationTime = current.getEarliestDate();
             }
 
             if(current.getTimeGap() < waitTime)
@@ -93,6 +107,20 @@ public class SoccerField
         for (Player current: playerListing)
         {
             current.advanceToDate(beginSimulationTime);
+        }
+
+        simulationTime = Calendar.getInstance();
+        simulationTime.setTime(beginSimulationTime);
+    }
+
+
+    public void advanceSim()
+    {
+        simulationTime.add(Calendar.MILLISECOND,(int)(waitTime));
+
+        for (Player current : playerListing)
+        {
+            current.advanceToDate(simulationTime.getTime());
         }
     }
 
@@ -130,4 +158,10 @@ public class SoccerField
     {
         this.playerListing = playerListing;
     }
+
+    public long getWaitTime()
+    {
+        return waitTime;
+    }
+
 }
