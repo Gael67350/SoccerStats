@@ -19,6 +19,7 @@ public class SoccerField
     private ArrayList<Player> playerListing = new ArrayList<>();
 
     private Player HighlightedPlayer;
+    private Player selectedPlayer;
 
     public int getRecordCount(Date currentDate)
     {
@@ -93,6 +94,11 @@ public class SoccerField
     public Player getHighlightedPlayer()
     {
         return HighlightedPlayer;
+    }
+
+    public void setHighlightedPlayer(Player highlightedPlayer)
+    {
+        HighlightedPlayer = highlightedPlayer;
     }
 
     public void setPlayerListing(ArrayList<Player> playerListing)

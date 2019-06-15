@@ -44,7 +44,8 @@ public class View3DController extends DelegatedController
 
     private HashMap<Player, PlayerCursor> playerCursors = new HashMap<>();
 
-    private Player selectedPlayer;
+    private SoccerField currentMatch;
+
 
     public void init(MainController mainController, SoccerStats app)
     {
@@ -65,6 +66,7 @@ public class View3DController extends DelegatedController
             }
         }
 
+        currentMatch = soccerField;
         // Set message pane not visible
         messagePane.setVisible(false);
     }
@@ -79,28 +81,34 @@ public class View3DController extends DelegatedController
         root3D.getChildren().add(cursor.getBillboard());
     }
 
-    public Player getSelectedPlayer() {
-        return selectedPlayer;
+    public Player getSelectedPlayer()
+    {
+        return currentMatch.getHighlightedPlayer() ;
     }
 
-    public void setSelectedPlayer(PlayerCursor selectedPlayerCursor) {
+    public void setSelectedPlayer(PlayerCursor selectedPlayerCursor)
+    {
         removeSelectedPlayer();
         selectedPlayerCursor.setMaterial(new PhongMaterial(Color.AQUA));
-        this.selectedPlayer = selectedPlayerCursor.getPlayer();
+        currentMatch.setHighlightedPlayer(selectedPlayerCursor.getPlayer());
     }
 
-    public void removeSelectedPlayer() {
-        if (selectedPlayer != null) {
-            PlayerCursor cursor = playerCursors.get(selectedPlayer);
+    public void removeSelectedPlayer()
+    {
+        if ( currentMatch.getHighlightedPlayer() != null)
+        {
+            PlayerCursor cursor = playerCursors.get(currentMatch.getHighlightedPlayer());
 
-            if (cursor != null) {
+            if (cursor != null)
+            {
                 cursor.setMaterial(new PhongMaterial(Color.ORANGE));
             }
         }
     }
 
-    public boolean hasSelectedPlayer() {
-        return (selectedPlayer != null);
+    public boolean hasSelectedPlayer()
+    {
+        return (currentMatch.getHighlightedPlayer()  != null);
     }
 
     private void init3DView()
@@ -144,23 +152,29 @@ public class View3DController extends DelegatedController
         root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>()
         {
             @Override
-            public void handle(CameraUpdateEvent event) {
+            public void handle(CameraUpdateEvent event)
+            {
                 playerCursors.forEach((player, cursor) -> cursor.getBillboard().update(camera));
             }
         });
 
-        root3D.addEventHandler(PlayerSelectedEvent.PLAYER_UPDATED, new EventHandler<PlayerSelectedEvent>() {
+        root3D.addEventHandler(PlayerSelectedEvent.PLAYER_UPDATED, new EventHandler<PlayerSelectedEvent>()
+        {
             @Override
-            public void handle(PlayerSelectedEvent event) {
+            public void handle(PlayerSelectedEvent event)
+            {
                 setSelectedPlayer(event.getPlayerCursor());
             }
         });
 
-        soccerField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        soccerField.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
             @Override
-            public void handle(MouseEvent event) {
-                if(hasSelectedPlayer()) {
-                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(selectedPlayer)));
+            public void handle(MouseEvent event)
+            {
+                if (hasSelectedPlayer())
+                {
+                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer() )));
                     removeSelectedPlayer();
                 }
             }
