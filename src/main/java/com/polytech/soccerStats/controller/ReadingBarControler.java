@@ -6,6 +6,7 @@ import com.polytech.soccerStats.utils.TimedUpdate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.Timer;
@@ -30,11 +31,29 @@ public class ReadingBarControler extends DelegatedController
 
     private SoccerField currentMatch;
 
+    Image playImage = new Image(getClass().getClassLoader().getResource("img/play_btn_image.png").toExternalForm());
+    Image pauseImage = new Image(getClass().getClassLoader().getResource("img/pause_btn_image.png").toExternalForm());
+
+
     @Override
     public void init(MainController controller, SoccerStats app)
     {
         this.mainController = controller;
         this.app = app;
+
+        playBtn.setOnMouseClicked(event ->
+        {
+            if(!currentMatch.isPlaying())
+            {
+                playBtn.setImage(pauseImage);
+                currentMatch.togglePlayStatus();
+            }
+            else
+            {
+                playBtn.setImage(playImage);
+                currentMatch.togglePlayStatus();
+            }
+        });
     }
 
 
@@ -48,7 +67,7 @@ public class ReadingBarControler extends DelegatedController
     public void setTimerValue()
     {
         timer.cancel();
-        timer.scheduleAtFixedRate(timedEvent,0,(currentMatch.getWaitTime()/currentMatch.getPlaybackSpeed()));
+        timer.scheduleAtFixedRate(timedEvent, 0, (currentMatch.getWaitTime() / currentMatch.getPlaybackSpeed()));
     }
 
 }

@@ -171,8 +171,8 @@ public class SoccerField
         return playStatus;
     }
 
-    public void setPlayStatus(boolean playStatus)
+    public void togglePlayStatus()
     {
-        this.playStatus = playStatus;
+        this.playStatus = !playStatus;
     }
 }

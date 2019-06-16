@@ -166,7 +166,7 @@ public class View3DController extends DelegatedController
                 if (event.getPlayerCursor().getPlayer().getCurrentInfo() != null)
                 {
                     setSelectedPlayer(event.getPlayerCursor());
-                    mainController.HiglightPlayer();
+                    mainController.higlightPlayer();
                 }
             }
         });
@@ -178,7 +178,7 @@ public class View3DController extends DelegatedController
             {
                 if (hasSelectedPlayer())
                 {
-                    mainController.DisableHighlighting();
+                    mainController.disableHighlighting();
                     pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer() )));
                     removeSelectedPlayer();
                 }

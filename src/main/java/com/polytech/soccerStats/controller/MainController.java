@@ -4,7 +4,6 @@ import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.model.SoccerField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,10 +19,14 @@ public class MainController implements Initializable
     @FXML
     private View3DController view3DController;
 
+    @FXML
+    private ReadingBarControler readingBarController;
+
     public void loadMatch(SoccerField soccerField) throws IOException
     {
         leftPaneController.load(soccerField);
         view3DController.load(soccerField);
+        readingBarController.load(soccerField);
 
     }
 
@@ -32,6 +35,7 @@ public class MainController implements Initializable
         this.app = app;
         leftPaneController.init(this,app);
         view3DController.init(this,app);
+        readingBarController.init(this,app);
     }
 
     public void launchCameraReinitialiser()
@@ -39,11 +43,11 @@ public class MainController implements Initializable
         view3DController.reinitCamera();
     }
 
-    public void HiglightPlayer()
+    public void higlightPlayer()
     {
         leftPaneController.enablePlayerSection();
     }
-    public  void DisableHighlighting()
+    public  void disableHighlighting()
     {
         leftPaneController.disablePlayerSection();
     }
