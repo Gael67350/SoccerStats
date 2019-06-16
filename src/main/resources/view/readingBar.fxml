@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<?import javafx.geometry.Insets?>
+
+<HBox alignment="BOTTOM_CENTER" prefHeight="68.0" prefWidth="820.0" spacing="8.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.polytech.soccerStats.controller.ReadingBarControler">
+    <children>
+        <ImageView fx:id="playBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../img/play_btn_image.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="stopBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../img/stop_btn_image.png" />
+            </image>
+        </ImageView>
+        <Slider fx:id="currentTimeSlider" prefHeight="32.0" prefWidth="560.0">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Slider>
+        <Label fx:id="currentTimeLabel" prefHeight="32.0" prefWidth="74.0" text="00:00.00" wrapText="true" />
+    </children>
+    <padding>
+        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+    </padding>
+</HBox>

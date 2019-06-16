@@ -24,6 +24,8 @@ public class SoccerField
 
     private long waitTime = Long.MAX_VALUE;
 
+    boolean playStatus = false;
+
     public int getRecordCount(Date currentDate)
     {
         int count = 0;
@@ -164,4 +166,13 @@ public class SoccerField
         return waitTime;
     }
 
+    public boolean isPlaying()
+    {
+        return playStatus;
+    }
+
+    public void setPlayStatus(boolean playStatus)
+    {
+        this.playStatus = playStatus;
+    }
 }
