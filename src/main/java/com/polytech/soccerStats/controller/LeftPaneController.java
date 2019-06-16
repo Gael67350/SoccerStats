@@ -85,15 +85,15 @@ public class LeftPaneController extends DelegatedController
             {
                 if (playerHeatmapToggleGroup.getSelectedToggle().equals(noneRD))
                 {
-                    System.out.println("noneRD");
+                    mainController.clearHeatMap();
                 }
                 else if (playerHeatmapToggleGroup.getSelectedToggle().equals(colorRD))
                 {
-                    System.out.println("colorRD");
+                    mainController.display2DHeatMap(currentMatch.getHighlightedPlayer());
                 }
                 else if (playerHeatmapToggleGroup.getSelectedToggle().equals(histogramRD))
                 {
-                    System.out.println("histogramRD");
+                    mainController.display3DHeatMap(currentMatch.getHighlightedPlayer());
                 }
             }
         });
