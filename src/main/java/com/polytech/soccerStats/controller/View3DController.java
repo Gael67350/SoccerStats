@@ -15,20 +15,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.MeshView;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
 public class View3DController extends DelegatedController {
-    public final double HEATMAP_BAR_MAX_HEIGHT = 25.0;
-    public final double HEATMAP_COLOR_ORANGE_THRESHOLD = HEATMAP_BAR_MAX_HEIGHT * 0.5;
-    public final double HEATMAP_COLOR_RED_THRESHOLD = HEATMAP_BAR_MAX_HEIGHT * 0.9;
+    public final double HEATMAP_3D_BAR_MAX_HEIGHT = 25.0;
+    public final double HEATMAP_3D_COLOR_ORANGE_THRESHOLD = 0.5;
+    public final double HEATMAP_3D_COLOR_RED_THRESHOLD = 0.9;
 
     public static final double MAX_HEIGHT = 34;
     public static final double MAX_WIDTH = 52.5;
@@ -114,12 +112,12 @@ public class View3DController extends DelegatedController {
         for (int i = 0; i < SoccerField.MAX_WIDTH + 1; i++) {
             for (int j = 0; j < SoccerField.MAX_HEIGHT + 1; j++) {
                 // Compute the opacity of the square
-                double opacity = (double) heatMapModel.getHeadPoint(i, j) / (heatMapModel.getMaximumValue() * 1.f);
+                double ratio = (double) heatMapModel.getHeadPoint(i, j) / (heatMapModel.getMaximumValue() * 1.f);
 
-                if (opacity > 0) {
+                if (ratio > 0) {
                     // Define the square and add the color
                     Box b = new Box(1, 0.0001, 1);
-                    b.setMaterial(new PhongMaterial(new Color(0.37843137f, 0.0f, 0.0f, opacity)));
+                    b.setMaterial(new PhongMaterial(new Color(ratio, 1 - ratio, 0.0f, 1 - ratio)));
 
                     // Set bar position
                     Point2D mappedPosition = mapPosition(i, j);
@@ -141,14 +139,14 @@ public class View3DController extends DelegatedController {
         for (int i = 0; i < SoccerField.MAX_WIDTH + 1; i++) {
             for (int j = 0; j < SoccerField.MAX_HEIGHT + 1; j++) {
                 // Compute the height of the bar
-                double height = (heatMapModel.getHeadPoint(i, j) * HEATMAP_BAR_MAX_HEIGHT) / (heatMapModel.getMaximumValue() * 1.f);
+                double height = (heatMapModel.getHeadPoint(i, j) * HEATMAP_3D_BAR_MAX_HEIGHT) / (heatMapModel.getMaximumValue() * 1.f);
 
                 // Define the box and add the color
                 Box b = new Box(1, height, 1);
 
-                if (height > HEATMAP_COLOR_RED_THRESHOLD) {
+                if (height > HEATMAP_3D_COLOR_RED_THRESHOLD * HEATMAP_3D_BAR_MAX_HEIGHT) {
                     b.setMaterial(new PhongMaterial(new Color(0.37843137f, 0.0f, 0.0f, 0.375)));
-                } else if (height > HEATMAP_COLOR_ORANGE_THRESHOLD) {
+                } else if (height > HEATMAP_3D_COLOR_ORANGE_THRESHOLD * HEATMAP_3D_BAR_MAX_HEIGHT) {
                     b.setMaterial(new PhongMaterial(new Color(0.84705882f, 0.26274510f, 0.08235294f, 0.375)));
                 } else {
                     b.setMaterial(new PhongMaterial(new Color(0.01f, 0.24f, 0.04f, 0.375)));
