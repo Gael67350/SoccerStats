@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
@@ -88,9 +89,6 @@ public class View3DController extends DelegatedController {
         removeSelectedPlayer();
         selectedPlayerCursor.setMaterial(new PhongMaterial(Color.AQUA));
         currentMatch.setHighlightedPlayer(selectedPlayerCursor.getPlayer());
-
-        // Debug only
-        display3DHeatMap(selectedPlayerCursor.getPlayer());
     }
 
     public void removeSelectedPlayer() {
@@ -108,6 +106,33 @@ public class View3DController extends DelegatedController {
         return (currentMatch.getHighlightedPlayer() != null);
     }
 
+    public void display2DHeatMap(Player player) {
+        player.advanceToDate(player.getPositions().get(player.getPositions().size() - 5).getTimestamp());
+        HeatMap heatMapModel = player.getHeatMap();
+        clearHeatMap();
+
+        for (int i = 0; i < SoccerField.MAX_WIDTH + 1; i++) {
+            for (int j = 0; j < SoccerField.MAX_HEIGHT + 1; j++) {
+                // Compute the opacity of the square
+                double opacity = (double) heatMapModel.getHeadPoint(i, j) / (heatMapModel.getMaximumValue() * 1.f);
+
+                if (opacity > 0) {
+                    // Define the square and add the color
+                    Box b = new Box(1, 0.0001, 1);
+                    b.setMaterial(new PhongMaterial(new Color(0.37843137f, 0.0f, 0.0f, opacity)));
+
+                    // Set bar position
+                    Point2D mappedPosition = mapPosition(i, j);
+                    b.setTranslateX(mappedPosition.getX());
+                    b.setTranslateZ(mappedPosition.getY());
+                    b.setTranslateY(-0.001 / 2);
+
+                    heatMap.getChildren().add(b);
+                }
+            }
+        }
+    }
+
     public void display3DHeatMap(Player player) {
         player.advanceToDate(player.getPositions().get(player.getPositions().size() - 5).getTimestamp());
         HeatMap heatMapModel = player.getHeatMap();
@@ -122,7 +147,7 @@ public class View3DController extends DelegatedController {
                 Box b = new Box(1, height, 1);
 
                 if (height > HEATMAP_COLOR_RED_THRESHOLD) {
-                    b.setMaterial(new PhongMaterial(new Color(0.47843137f, 0.0f, 0.0f, 0.375)));
+                    b.setMaterial(new PhongMaterial(new Color(0.37843137f, 0.0f, 0.0f, 0.375)));
                 } else if (height > HEATMAP_COLOR_ORANGE_THRESHOLD) {
                     b.setMaterial(new PhongMaterial(new Color(0.84705882f, 0.26274510f, 0.08235294f, 0.375)));
                 } else {
@@ -177,6 +202,7 @@ public class View3DController extends DelegatedController {
 
         scene3D.setCamera(camera);
         scene3D.setFill(Color.gray(0.6));
+        pane3D.setBackground(Background.EMPTY);
 
         root3D.addEventHandler(CameraUpdateEvent.CAMERA_UPDATED, new EventHandler<CameraUpdateEvent>() {
             @Override
