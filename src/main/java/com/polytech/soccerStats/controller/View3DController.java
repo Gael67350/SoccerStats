@@ -24,9 +24,9 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class View3DController extends DelegatedController {
-    public final double HEATMAP_3D_BAR_MAX_HEIGHT = 25.0;
-    public final double HEATMAP_3D_COLOR_ORANGE_THRESHOLD = 0.5;
-    public final double HEATMAP_3D_COLOR_RED_THRESHOLD = 0.9;
+    public static final double HEATMAP_3D_BAR_MAX_HEIGHT = 25.0;
+    public static final double HEATMAP_3D_COLOR_ORANGE_THRESHOLD = 0.5;
+    public static final double HEATMAP_3D_COLOR_RED_THRESHOLD = 0.9;
 
     public static final double MAX_HEIGHT = 34;
     public static final double MAX_WIDTH = 52.5;
@@ -105,7 +105,6 @@ public class View3DController extends DelegatedController {
     }
 
     public void display2DHeatMap(Player player) {
-        player.advanceToDate(player.getPositions().get(player.getPositions().size() - 5).getTimestamp());
         HeatMap heatMapModel = player.getHeatMap();
         clearHeatMap();
 
@@ -132,7 +131,6 @@ public class View3DController extends DelegatedController {
     }
 
     public void display3DHeatMap(Player player) {
-        player.advanceToDate(player.getPositions().get(player.getPositions().size() - 5).getTimestamp());
         HeatMap heatMapModel = player.getHeatMap();
         clearHeatMap();
 
