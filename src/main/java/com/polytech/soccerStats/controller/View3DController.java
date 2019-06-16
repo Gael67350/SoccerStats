@@ -7,9 +7,11 @@ import com.polytech.soccerStats.event.CameraUpdateEvent;
 import com.polytech.soccerStats.event.PlayerSelectedEvent;
 import com.polytech.soccerStats.model.*;
 import com.polytech.soccerStats.utils.CameraManager;
+import com.polytech.soccerStats.utils.Fx3DGroup;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -17,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.MeshView;
 
 import java.io.IOException;
@@ -27,6 +30,9 @@ public class View3DController extends DelegatedController {
     public static final double HEATMAP_3D_BAR_MAX_HEIGHT = 25.0;
     public static final double HEATMAP_3D_COLOR_ORANGE_THRESHOLD = 0.5;
     public static final double HEATMAP_3D_COLOR_RED_THRESHOLD = 0.9;
+
+    public static final float TRAIL_SLOW_SPEED = 2.f;
+    public static final float TRAIL_FAST_SPEED = 8.f;
 
     public static final double MAX_HEIGHT = 34;
     public static final double MAX_WIDTH = 52.5;
@@ -42,6 +48,8 @@ public class View3DController extends DelegatedController {
     private Group root3D;
 
     private Group heatMap;
+
+    private Fx3DGroup trail;
 
     private CameraManager cameraManager;
 
@@ -68,6 +76,11 @@ public class View3DController extends DelegatedController {
         currentMatch = soccerField;
         // Set message pane not visible
         messagePane.setVisible(false);
+
+        // Display trail by default
+        for (Player p : currentMatch.getPlayers()) {
+            displayTrail(p);
+        }
     }
 
     public void addPlayer(Player player, Position position) throws IOException {
@@ -77,10 +90,6 @@ public class View3DController extends DelegatedController {
         // Display the player on the soccer field
         root3D.getChildren().add(cursor);
         root3D.getChildren().add(cursor.getBillboard());
-    }
-
-    public Player getSelectedPlayer() {
-        return currentMatch.getHighlightedPlayer();
     }
 
     public void setSelectedPlayer(PlayerCursor selectedPlayerCursor) {
@@ -165,6 +174,59 @@ public class View3DController extends DelegatedController {
         heatMap.getChildren().clear();
     }
 
+    public void displayTrail(Player p) {
+        int steps = currentMatch.getTrailLength();
+        p.advanceToDate(p.getPositions().get(p.getPositions().size()-5).getTimestamp());
+
+        if (steps == 0) {
+            return;
+        }
+
+        Position currentPosition = p.getCurrentInfo();
+
+        if (currentPosition == null) {
+            return;
+        }
+
+        int index = p.find(currentPosition);
+
+        if (index == -1) {
+            return;
+        }
+
+        for (int i = index - 1; i >= 0 && steps > 0; i--) {
+            // Map origin and target of the trail
+            Point2D origin = mapPosition(p.getPositions().get(i).getPos());
+            Point3D origin3D = new Point3D(origin.getX(), -0.001, origin.getY());
+
+            Point2D target = mapPosition(p.getPositions().get(i + 1).getPos());
+            Point3D target3D = new Point3D(target.getX(), -0.001, target.getY());
+
+            // Create trail
+            Cylinder line = trail.createLine(origin3D, target3D);
+
+            // Set color according to the speed of the player
+            float speed = p.getPositions().get(i).getSpeed();
+
+            if (speed == 0) {
+                line.setMaterial(new PhongMaterial(Color.GREEN));
+            } else if (speed < TRAIL_SLOW_SPEED) {
+                line.setMaterial(new PhongMaterial(Color.BLUE));
+            } else if (speed >= TRAIL_SLOW_SPEED && speed < TRAIL_FAST_SPEED) {
+                line.setMaterial(new PhongMaterial(Color.PURPLE));
+            } else {
+                line.setMaterial(new PhongMaterial(Color.RED));
+            }
+
+            trail.getChildren().add(line);
+            steps--;
+        }
+    }
+
+    public void clearTrail() {
+        trail.getChildren().clear();
+    }
+
     private void init3DView() {
         // Init 3D view
         pane3D = new Pane();
@@ -232,6 +294,11 @@ public class View3DController extends DelegatedController {
         heatMap = new Group();
         heatMap.setFocusTraversable(true);
         root3D.getChildren().add(heatMap);
+
+        // Init trail
+        trail = new Fx3DGroup();
+        trail.setFocusTraversable(true);
+        root3D.getChildren().add(trail);
     }
 
     public static Point2D mapPosition(double x, double y) {

@@ -86,6 +86,20 @@ public class Player
         return totalDistance;
     }
 
+    public int find(Position position) {
+        if(!positions.contains(position)) {
+            return -1;
+        }
+
+        for(int i=0; i<positions.size(); i++) {
+            if(positions.get(i).equals(position)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     //test methods
 
     public int getTagId()

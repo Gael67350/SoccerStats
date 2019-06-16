@@ -3,6 +3,7 @@ package com.polytech.soccerStats.model;
 import javafx.geometry.Point2D;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Position implements Comparable<Position> {
     private Date timestamp;
@@ -67,5 +68,20 @@ public class Position implements Comparable<Position> {
 
     public float getSpeed() {
         return speed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return Objects.equals(timestamp, position.timestamp) &&
+                Objects.equals(pos, position.pos) &&
+                Objects.equals(relatedPlayer, position.relatedPlayer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timestamp, pos, relatedPlayer);
     }
 }

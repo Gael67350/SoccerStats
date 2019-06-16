@@ -21,15 +21,14 @@ public class MainController implements Initializable {
     private View3DController view3DController;
 
     public void loadMatch(SoccerField soccerField) throws IOException {
-        leftPaneController.load(soccerField);
         view3DController.load(soccerField);
-
+        leftPaneController.load(soccerField);
     }
 
     public void initSubControllers(SoccerStats app) {
         this.app = app;
-        leftPaneController.init(this, app);
         view3DController.init(this, app);
+        leftPaneController.init(this, app);
     }
 
     public void launchCameraReinitialiser() {
@@ -54,6 +53,14 @@ public class MainController implements Initializable {
 
     public void clearHeatMap() {
         view3DController.clearHeatMap();
+    }
+
+    public void displayTrail(Player p) {
+        view3DController.displayTrail(p);
+    }
+
+    public void clearTrail() {
+        view3DController.clearTrail();
     }
 
     @Override
