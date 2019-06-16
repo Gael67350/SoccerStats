@@ -40,7 +40,7 @@ public class SoccerField
     public int getRecordCount()
     {
         int count = 0;
-        for(Player current : playerListing)
+        for (Player current : playerListing)
         {
             count += current.getRecordCount();
         }
@@ -79,34 +79,34 @@ public class SoccerField
 
     public void initialiseSimulation()
     {
-        for(Player current : playerListing)
+        for (Player current : playerListing)
         {
             //updating begin time & time gap
-            if(beginSimulationTime == null)
+            if (beginSimulationTime == null)
             {
                 beginSimulationTime = current.getEarliestDate();
             }
-            else if(current.getEarliestDate().before(beginSimulationTime))
+            else if (current.getEarliestDate().before(beginSimulationTime))
             {
                 beginSimulationTime = current.getEarliestDate();
             }
 
-            if(endSimulationTime == null)
+            if (endSimulationTime == null)
             {
                 endSimulationTime = current.getEarliestDate();
             }
-            else if(endSimulationTime.before(current.getEarliestDate()))
+            else if (endSimulationTime.before(current.getEarliestDate()))
             {
                 endSimulationTime = current.getEarliestDate();
             }
 
-            if(current.getTimeGap() < waitTime)
+            if (current.getTimeGap() < waitTime)
             {
                 waitTime = current.getTimeGap();
             }
         }
 
-        for (Player current: playerListing)
+        for (Player current : playerListing)
         {
             current.advanceToDate(beginSimulationTime);
         }
@@ -118,7 +118,7 @@ public class SoccerField
 
     public void advanceSim()
     {
-        simulationTime.add(Calendar.MILLISECOND,(int)(waitTime));
+        simulationTime.add(Calendar.MILLISECOND, (int) (waitTime));
 
         for (Player current : playerListing)
         {
@@ -174,5 +174,15 @@ public class SoccerField
     public void togglePlayStatus()
     {
         this.playStatus = !playStatus;
+    }
+
+    public long getPassedTime()
+    {
+        return simulationTime.getTimeInMillis() - beginSimulationTime.getTime();
+    }
+
+    public void reinitTimeline()
+    {
+        simulationTime.setTimeInMillis(beginSimulationTime.getTime());
     }
 }

@@ -52,6 +52,11 @@ public class MainController implements Initializable
         leftPaneController.disablePlayerSection();
     }
 
+    public void updatePlaybackSpeed()
+    {
+        readingBarController.setTimerValue();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {

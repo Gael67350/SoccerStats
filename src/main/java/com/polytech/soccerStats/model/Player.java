@@ -140,7 +140,7 @@ public class Player
 
     public long getTimeGap()
     {
-        return positions.get(1).getTimestamp().getTime() - positions.get(1).getTimestamp().getTime();
+        return positions.get(1).getTimestamp().getTime() - positions.get(0).getTimestamp().getTime();
     }
 
     @Override

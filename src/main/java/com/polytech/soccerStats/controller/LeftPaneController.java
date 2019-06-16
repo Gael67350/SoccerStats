@@ -112,6 +112,7 @@ public class LeftPaneController extends DelegatedController
             if (!oldValue.equals(newValue))
             {
                 currentMatch.setPlaybackSpeed(Integer.parseInt(newValue));
+                mainController.updatePlaybackSpeed();
             }
         });
 

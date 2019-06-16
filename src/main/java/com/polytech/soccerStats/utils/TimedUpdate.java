@@ -11,6 +11,7 @@ public class TimedUpdate extends TimerTask
 
     public TimedUpdate(SoccerField currentGame)
     {
+        super();
         this.currentGame = currentGame;
     }
 
@@ -18,6 +19,7 @@ public class TimedUpdate extends TimerTask
     public void run()
     {
         if(currentGame.isPlaying())
+            System.out.println("top");
             currentGame.advanceSim();
     }
 }
