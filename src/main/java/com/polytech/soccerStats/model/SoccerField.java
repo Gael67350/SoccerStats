@@ -207,4 +207,14 @@ public class SoccerField
     {
         this.controller = controller;
     }
+
+    public Date getBeginSimulationTime()
+    {
+        return beginSimulationTime;
+    }
+
+    public Date getEndSimulationTime()
+    {
+        return endSimulationTime;
+    }
 }

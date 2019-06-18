@@ -140,6 +140,7 @@ public class LeftPaneController extends DelegatedController
                 app.openFile(selected.getPath());
 
                 currentMatch.initialiseSimulation();
+                mainController.initBar();
                 enableParametersSection();
                 topViewBtn.setDisable(false);
             }

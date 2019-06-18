@@ -59,7 +59,7 @@ public class MainController implements Initializable
     {
         leftPaneController.updatePlayer();
         view3DController.updatePositions();
-        readingBarController.updateTimeLabel();
+        readingBarController.updateTimeSection();
     }
 
     public void reinitButtons()
@@ -71,5 +71,10 @@ public class MainController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
 
+    }
+
+    public void initBar()
+    {
+        readingBarController.initBar();
     }
 }

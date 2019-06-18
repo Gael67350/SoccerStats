@@ -76,7 +76,7 @@ public class ReadingBarControler extends DelegatedController
                     currentMatch.togglePlayStatus();
 
                 currentMatch.reinitTimeline();
-                updateTimeLabel();
+                updateTimeSection();
 
                 stopBtn.setImage(stopOffImage);
                 playBtn.setImage(playOnImage);
@@ -94,9 +94,12 @@ public class ReadingBarControler extends DelegatedController
         playBtn.setImage(playOnImage);
     }
 
-    public void updateTimeLabel()
+    public void updateTimeSection()
     {
         long tmpTime = currentMatch.getPassedTime();
+
+        currentTimeSlider.setValue(tmpTime);
+
         long minutes = tmpTime/60000;
         tmpTime = tmpTime%60000;
         long secondes = tmpTime/1000;
@@ -104,4 +107,9 @@ public class ReadingBarControler extends DelegatedController
         currentTimeLabel.setText(minutes + ":" + secondes + "." + tmpTime);
     }
 
+    public void initBar()
+    {
+        currentTimeSlider.setMin(0);
+        currentTimeSlider.setMax(this.currentMatch.getEndSimulationTime().getTime()-this.currentMatch.getBeginSimulationTime().getTime());
+    }
 }
