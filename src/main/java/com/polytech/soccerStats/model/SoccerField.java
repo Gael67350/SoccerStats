@@ -187,5 +187,10 @@ public class SoccerField
     public void reinitTimeline()
     {
         simulationTime.setTimeInMillis(beginSimulationTime.getTime());
+
+        for (Player current:playerListing)
+        {
+            current.reinitTimeLinePosition();
+        }
     }
 }

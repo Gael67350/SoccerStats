@@ -166,8 +166,8 @@ public class Player
                 '}';
     }
 
-    public int getCurrentPositionIndex()
+    public void reinitTimeLinePosition()
     {
-        return currentPositionIndex;
+        currentPositionIndex = -1;
     }
 }
