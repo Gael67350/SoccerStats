@@ -33,7 +33,7 @@ public class Player
         }
         else
         {
-            while(positions.get(currentPositionIndex+1).getTimestamp().before(newDate))
+            while(positions.get(currentPositionIndex+1).getTimestamp().before(newDate) || positions.get(currentPositionIndex+1).getTimestamp().equals(newDate))
             {
                 currentPositionIndex ++;
                 if(currentPositionIndex > 0)
@@ -57,28 +57,7 @@ public class Player
                                               );
                 }
 
-                int xToIncrement = (int)(positions.get(currentPositionIndex+1).getPosX());
-                int yToIncrement = (int)(positions.get(currentPositionIndex+1).getPosY());
-
-                if(xToIncrement < 0)
-                {
-                    xToIncrement = 0;
-                }
-                else if(xToIncrement > SoccerField.MAX_WIDTH)
-                {
-                    xToIncrement = SoccerField.MAX_WIDTH;
-                }
-
-                if(yToIncrement < 0)
-                {
-                    yToIncrement = 0;
-                }
-                else if(yToIncrement > SoccerField.MAX_HEIGHT)
-                {
-                    yToIncrement = SoccerField.MAX_HEIGHT;
-                }
-
-                heatMap.incrementAtPoint(xToIncrement,yToIncrement);
+                heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex+1).getPosX()), (int)(positions.get(currentPositionIndex+1).getPosY()));
             }
 
             return true;
@@ -96,7 +75,10 @@ public class Player
 
     public Position getCurrentInfo()
     {
-        return positions.get(currentPositionIndex);
+        if(currentPositionIndex != -1)
+            return positions.get(currentPositionIndex);
+        else
+            return null;
     }
 
     public float getTotalDistance()
@@ -151,6 +133,16 @@ public class Player
         return positions;
     }
 
+    public Date getEarliestDate()
+    {
+        return positions.get(0).getTimestamp();
+    }
+
+    public long getTimeGap()
+    {
+        return positions.get(1).getTimestamp().getTime() - positions.get(0).getTimestamp().getTime();
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -172,5 +164,10 @@ public class Player
         return "Player{" +
                 "tagId=" + tagId +
                 '}';
+    }
+
+    public int getCurrentPositionIndex()
+    {
+        return currentPositionIndex;
     }
 }
