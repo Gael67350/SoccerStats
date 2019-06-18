@@ -141,8 +141,9 @@ public class Player implements Comparable<Player> {
         return positions.get(0).getTimestamp();
     }
 
-    public long getTimeGap() {
-        return positions.get(1).getTimestamp().getTime() - positions.get(1).getTimestamp().getTime();
+    public long getTimeGap()
+    {
+        return positions.get(1).getTimestamp().getTime() - positions.get(0).getTimestamp().getTime();
     }
 
     @Override
@@ -176,5 +177,10 @@ public class Player implements Comparable<Player> {
         }
 
         return 0;
+    }
+
+    public int getCurrentPositionIndex()
+    {
+        return currentPositionIndex;
     }
 }

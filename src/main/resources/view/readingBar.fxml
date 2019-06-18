@@ -11,16 +11,16 @@
 
 <?import javafx.geometry.Insets?>
 
-<HBox alignment="BOTTOM_CENTER" prefHeight="68.0" prefWidth="820.0" spacing="8.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.polytech.soccerStats.controller.ReadingBarControler">
+<HBox fx:id="readingBar" alignment="BOTTOM_CENTER" prefHeight="68.0" prefWidth="820.0" spacing="8.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.polytech.soccerStats.controller.ReadingBarControler">
     <children>
         <ImageView fx:id="playBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@../img/play_btn_image.png" />
+               <Image url="@../img/play_btn_image_off.png" />
             </image>
         </ImageView>
         <ImageView fx:id="stopBtn" fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../img/stop_btn_image.png" />
+                <Image url="@../img/stop_btn_image_off.png" />
             </image>
         </ImageView>
         <Slider fx:id="currentTimeSlider" prefHeight="32.0" prefWidth="560.0">

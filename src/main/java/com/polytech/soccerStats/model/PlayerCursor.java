@@ -105,4 +105,9 @@ public class PlayerCursor extends Fx3DGroup
 
         return meshViews;
     }
+
+    public Position getCurrentPosition()
+    {
+        return currentPosition;
+    }
 }

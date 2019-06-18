@@ -1,5 +1,7 @@
 package com.polytech.soccerStats.model;
 
+import com.polytech.soccerStats.controller.MainController;
+
 import java.util.*;
 
 public class SoccerField
@@ -26,6 +28,7 @@ public class SoccerField
 
     boolean playStatus = false;
 
+
     public int getRecordCount(Date currentDate)
     {
         int count = 0;
@@ -40,7 +43,7 @@ public class SoccerField
     public int getRecordCount()
     {
         int count = 0;
-        for(Player current : playerListing)
+        for (Player current : playerListing)
         {
             count += current.getRecordCount();
         }
@@ -79,34 +82,34 @@ public class SoccerField
 
     public void initialiseSimulation()
     {
-        for(Player current : playerListing)
+        for (Player current : playerListing)
         {
             //updating begin time & time gap
-            if(beginSimulationTime == null)
+            if (beginSimulationTime == null)
             {
                 beginSimulationTime = current.getEarliestDate();
             }
-            else if(current.getEarliestDate().before(beginSimulationTime))
+            else if (current.getEarliestDate().before(beginSimulationTime))
             {
                 beginSimulationTime = current.getEarliestDate();
             }
 
-            if(endSimulationTime == null)
+            if (endSimulationTime == null)
             {
                 endSimulationTime = current.getEarliestDate();
             }
-            else if(endSimulationTime.before(current.getEarliestDate()))
+            else if (endSimulationTime.before(current.getEarliestDate()))
             {
                 endSimulationTime = current.getEarliestDate();
             }
 
-            if(current.getTimeGap() < waitTime)
+            if (current.getTimeGap() < waitTime)
             {
                 waitTime = current.getTimeGap();
             }
         }
 
-        for (Player current: playerListing)
+        for (Player current : playerListing)
         {
             current.advanceToDate(beginSimulationTime);
         }
@@ -118,12 +121,12 @@ public class SoccerField
 
     public void advanceSim()
     {
-        simulationTime.add(Calendar.MILLISECOND,(int)(waitTime));
-
+        simulationTime.add(Calendar.MILLISECOND, (int)(waitTime*playbackSpeed));
         for (Player current : playerListing)
         {
             current.advanceToDate(simulationTime.getTime());
         }
+
     }
 
     public int getPlaybackSpeed()
@@ -171,8 +174,18 @@ public class SoccerField
         return playStatus;
     }
 
-    public void setPlayStatus(boolean playStatus)
+    public void togglePlayStatus()
     {
-        this.playStatus = playStatus;
+        this.playStatus = !playStatus;
+    }
+
+    public long getPassedTime()
+    {
+        return simulationTime.getTimeInMillis() - beginSimulationTime.getTime();
+    }
+
+    public void reinitTimeline()
+    {
+        simulationTime.setTimeInMillis(beginSimulationTime.getTime());
     }
 }

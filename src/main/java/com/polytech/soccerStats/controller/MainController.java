@@ -5,10 +5,10 @@ import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -22,10 +22,14 @@ public class MainController implements Initializable {
 
     @FXML
     private PlayerSelectionController playerSelectionController;
+  
+    @FXML
+    private ReadingBarControler readingBarController;
 
     public void loadMatch(SoccerField soccerField) throws IOException {
         view3DController.load(soccerField);
         leftPaneController.load(soccerField);
+        readingBarController.load(soccerField);
         playerSelectionController.load(soccerField);
     }
 
@@ -33,6 +37,7 @@ public class MainController implements Initializable {
         this.app = app;
         view3DController.init(this, app);
         leftPaneController.init(this, app);
+        readingBarController.init(this,app);
         playerSelectionController.init(this, app);
     }
 
@@ -40,11 +45,12 @@ public class MainController implements Initializable {
         view3DController.reinitCamera();
     }
 
-    public void HiglightPlayer() {
+    public void higlightPlayer()
+    {
         leftPaneController.enablePlayerSection();
     }
-
-    public void DisableHighlighting() {
+    public  void disableHighlighting()
+    {
         leftPaneController.disablePlayerSection();
     }
 
@@ -66,6 +72,11 @@ public class MainController implements Initializable {
 
     public void clearTrail() {
         view3DController.clearTrail();
+
+    public void callDisplayUpdate()
+    {
+        leftPaneController.updatePlayer();
+        view3DController.updatePositions();
     }
 
     @Override

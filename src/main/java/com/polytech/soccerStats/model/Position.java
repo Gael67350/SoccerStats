@@ -84,4 +84,18 @@ public class Position implements Comparable<Position> {
     public int hashCode() {
         return Objects.hash(timestamp, pos, relatedPlayer);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Position{" +
+                "timestamp=" + timestamp +
+                ", pos=" + pos +
+                ", heading=" + heading +
+                ", direction=" + direction +
+                ", energy=" + energy +
+                ", speed=" + speed +
+                ", relatedPlayer=" + relatedPlayer +
+                '}';
+    }
 }

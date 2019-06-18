@@ -1,6 +1,7 @@
 package com.polytech.soccerStats.Application;
 
 import com.polytech.soccerStats.controller.MainController;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,6 +36,30 @@ public class SoccerStats extends Application
         primaryStage.setScene(scene);
         primaryStage.setTitle("SoccerStats");
         primaryStage.show();
+
+        final long startNanoTime = System.nanoTime();
+
+        new AnimationTimer()
+        {
+            long cumulativeWait = 0;
+            long prectime = startNanoTime;
+
+            public void handle(long currentNanoTime)
+            {
+                cumulativeWait += (currentNanoTime - prectime)/1000;
+                prectime = currentNanoTime;
+
+                if(currentGame != null)
+                {
+                    if (cumulativeWait >= currentGame.getWaitTime() && currentGame.isPlaying())
+                    {
+                        currentGame.advanceSim();
+                        mainController.callDisplayUpdate();
+                        cumulativeWait = 0;
+                    }
+                }
+            }
+        }.start();
     }
 
     public static void main(String[] args)
@@ -44,9 +69,9 @@ public class SoccerStats extends Application
 
     public void testLecture() throws Exception
     {
-        while(1 == 1)
+        while (1 == 1)
         {
-            Thread.sleep(currentGame.getWaitTime()/currentGame.getPlaybackSpeed());
+            Thread.sleep(currentGame.getWaitTime() / currentGame.getPlaybackSpeed());
             currentGame.advanceSim();
         }
     }

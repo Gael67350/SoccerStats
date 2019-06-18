@@ -25,6 +25,7 @@ import javafx.scene.shape.MeshView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 public class View3DController extends DelegatedController {
     public static final double HEATMAP_3D_BAR_MAX_HEIGHT = 25.0;
@@ -282,17 +283,19 @@ public class View3DController extends DelegatedController {
             public void handle(PlayerSelectedEvent event) {
                 if (event.getPlayerCursor().getPlayer().getCurrentInfo() != null) {
                     setSelectedPlayer(event.getPlayerCursor());
-                    mainController.HiglightPlayer();
+                    mainController.higlightPlayer();
                 }
             }
         });
 
         soccerField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
-                if (hasSelectedPlayer()) {
-                    mainController.DisableHighlighting();
-                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer())));
+            public void handle(MouseEvent event)
+            {
+                if (hasSelectedPlayer())
+                {
+                    mainController.disableHighlighting();
+                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer() )));
                     removeSelectedPlayer();
                 }
             }
@@ -323,5 +326,16 @@ public class View3DController extends DelegatedController {
 
     public void reinitCamera() {
         cameraManager.resetCameraPosition();
+    }
+
+    public void updatePositions()
+    {
+        for (Player current:currentMatch.getPlayers())
+        {
+            if(current.getCurrentInfo() != null && !current.getCurrentInfo().equals(playerCursors.get(current).getCurrentPosition()))
+            {
+                playerCursors.get(current).moveTo(current.getCurrentInfo());
+            }
+        }
     }
 }
