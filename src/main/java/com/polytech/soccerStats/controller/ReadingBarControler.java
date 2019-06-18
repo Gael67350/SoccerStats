@@ -82,6 +82,12 @@ public class ReadingBarControler extends DelegatedController
                 playBtn.setImage(playOnImage);
             }
         });
+
+        currentTimeSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+        {
+           if(currentTimeSlider.getValue() != currentMatch.getPassedTime())
+               currentMatch.jumpTo((int)(currentTimeSlider.getValue()));
+        });
     }
 
 

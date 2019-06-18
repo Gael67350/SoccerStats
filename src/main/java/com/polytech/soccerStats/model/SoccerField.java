@@ -217,4 +217,15 @@ public class SoccerField
     {
         return endSimulationTime;
     }
+
+    public void jumpTo(int value)
+    {
+        reinitTimeline();
+        simulationTime.add(Calendar.MILLISECOND,value);
+
+        for (Player current : playerListing)
+        {
+            current.advanceToDate(simulationTime.getTime());
+        }
+    }
 }
