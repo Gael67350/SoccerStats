@@ -7,6 +7,7 @@ import com.polytech.soccerStats.event.PlayerSelectedEvent;
 import com.polytech.soccerStats.utils.Fx3DGroup;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.Camera;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.MeshView;
@@ -20,12 +21,14 @@ public class PlayerCursor extends Fx3DGroup
     private Position currentPosition;
     private Billboard billboard;
     private MeshView[] meshViews;
+    private Camera camera;
 
-    public PlayerCursor(Position position) throws IOException
+    public PlayerCursor(Position position, Camera camera) throws IOException
     {
         currentPosition = position;
         billboard = new Billboard(this);
         meshViews = loadMeshs();
+        this.camera = camera;
 
         // Display player cursor
         getChildren().addAll(meshViews);
@@ -51,11 +54,20 @@ public class PlayerCursor extends Fx3DGroup
 
     public void moveTo(Position target)
     {
+        if(getPlayer().getCurrentPositionIndex() == 1 && !getPlayer().isVisible()) {
+            getPlayer().setVisible(true);
+        }
+
         Point2D mappedPosition = View3DController.mapPosition(target.getPos());
 
         set3DTranslate(mappedPosition.getX(), -0.75, mappedPosition.getY());
-        set3DRotate(0.0,Math.toDegrees(target.getHeading()),0.0);
+        set3DRotate(0, Math.toDegrees(target.getHeading()), 0);
+
         currentPosition = target;
+
+        this.getBillboard().update(camera);
+        this.setVisible(target.getRelatedPlayer().isVisible());
+        this.getBillboard().setVisible(target.getRelatedPlayer().isVisible());
     }
 
     public Player getPlayer()

@@ -127,7 +127,7 @@ public class Fx3DGroup extends Group {
         double angle = Math.acos(diff.normalize().dotProduct(yAxis));
         Rotate rotateAroundCenter = new Rotate(-Math.toDegrees(angle), axisOfRotation);
 
-        Cylinder line = new Cylinder(0.01f, height);
+        Cylinder line = new Cylinder(0.1f, height);
 
         line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
 

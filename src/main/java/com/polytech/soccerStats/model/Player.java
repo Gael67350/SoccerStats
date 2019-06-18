@@ -1,11 +1,11 @@
 package com.polytech.soccerStats.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
-public class Player
-{
+public class Player implements Comparable<Player> {
     private final int tagId;
     private float totalDistance;
 
@@ -15,8 +15,9 @@ public class Player
 
     private HeatMap heatMap = new HeatMap();
 
-    public Player(int tagId)
-    {
+    private boolean visible = true;
+
+    public Player(int tagId) {
         this.tagId = tagId;
         totalDistance = 0;
         //before the begining index placed before the first element
@@ -52,9 +53,9 @@ public class Player
                 else
                 {
                     totalDistance += Math.sqrt(
-                                                 Math.pow(positions.get(currentPositionIndex+1).getPosX(),2)
-                                                +Math.pow(positions.get(currentPositionIndex+1).getPosY(),2)
-                                              );
+                            Math.pow(positions.get(currentPositionIndex + 1).getPosX(), 2)
+                                    + Math.pow(positions.get(currentPositionIndex + 1).getPosY(), 2)
+                    );
                 }
                 heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex).getPosX()), (int)(positions.get(currentPositionIndex).getPosY()));
             }
@@ -63,8 +64,7 @@ public class Player
         }
     }
 
-    public boolean rewind(Date revTime)
-    {
+    public boolean rewind(Date revTime) {
         totalDistance = 0;
         heatMap = new HeatMap();
         currentPositionIndex = -1;
@@ -72,32 +72,49 @@ public class Player
         return advanceToDate(revTime);
     }
 
-    public Position getCurrentInfo()
-    {
-        if(currentPositionIndex != -1)
+    public Position getCurrentInfo() {
+        if (currentPositionIndex != -1)
             return positions.get(currentPositionIndex);
         else
             return null;
     }
 
-    public float getTotalDistance()
-    {
+    public float getTotalDistance() {
         return totalDistance;
+    }
+
+    public int find(Position position) {
+        if (!positions.contains(position)) {
+            return -1;
+        }
+
+        for (int i = 0; i < positions.size(); i++) {
+            if (positions.get(i).equals(position)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     //test methods
 
-    public int getTagId()
-    {
+    public int getTagId() {
         return tagId;
     }
 
-    public int getRecordCount(Date currentDate)
-    {
+    public int getRecordCount(Date currentDate) {
         int count = 0;
 
-        for (Position current : positions)
-        {
+        for (Position current : positions) {
             if (current.happensOn(currentDate))
                 count++;
         }
@@ -105,35 +122,29 @@ public class Player
         return count;
     }
 
-    public int getRecordCount()
-    {
+    public int getRecordCount() {
         int count = 0;
 
-        for (Position current : positions)
-        {
+        for (Position current : positions) {
             count++;
         }
 
         return count;
     }
 
-    public Position getRecord(int index)
-    {
+    public Position getRecord(int index) {
         return positions.get(index);
     }
 
-    public HeatMap getHeatMap()
-    {
+    public HeatMap getHeatMap() {
         return heatMap;
     }
 
-    public ArrayList<Position> getPositions()
-    {
+    public ArrayList<Position> getPositions() {
         return positions;
     }
 
-    public Date getEarliestDate()
-    {
+    public Date getEarliestDate() {
         return positions.get(0).getTimestamp();
     }
 
@@ -148,8 +159,7 @@ public class Player
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
@@ -157,17 +167,32 @@ public class Player
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(tagId);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Player{" +
                 "tagId=" + tagId +
                 '}';
+    }
+  
+    @Override
+    public int compareTo(Player o) {
+        if (this.tagId > o.tagId) {
+            return 1;
+        }
+
+        if (this.tagId < o.tagId) {
+            return -1;
+        }
+
+        return 0;
+    }
+
+    public int getCurrentPositionIndex() {
+        return currentPositionIndex;  
     }
 
     public void reinitTimeLinePosition()
