@@ -3,14 +3,11 @@ package com.polytech.soccerStats.controller;
 import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import sun.applet.Main;
 
 import java.io.File;
 
@@ -85,15 +82,15 @@ public class LeftPaneController extends DelegatedController
             {
                 if (playerHeatmapToggleGroup.getSelectedToggle().equals(noneRD))
                 {
-                    System.out.println("noneRD");
+                    mainController.clearHeatMap();
                 }
                 else if (playerHeatmapToggleGroup.getSelectedToggle().equals(colorRD))
                 {
-                    System.out.println("colorRD");
+                    mainController.display2DHeatMap(currentMatch.getHighlightedPlayer());
                 }
                 else if (playerHeatmapToggleGroup.getSelectedToggle().equals(histogramRD))
                 {
-                    System.out.println("histogramRD");
+                    mainController.display3DHeatMap(currentMatch.getHighlightedPlayer());
                 }
             }
         });
@@ -117,9 +114,16 @@ public class LeftPaneController extends DelegatedController
 
         trailLengthSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
         {
-            if (!oldValue.equals(newValue))
+            if (newValue != null && !newValue.equals("") && !oldValue.equals(newValue))
             {
                 currentMatch.setTrailLength(Integer.parseInt(newValue));
+                mainController.clearTrail();
+
+                if (currentMatch.getTrailLength() > 0) {
+                    for (Player p : currentMatch.getPlayers()) {
+                        mainController.displayTrail(p);
+                    }
+                }
             }
         });
 
