@@ -67,7 +67,8 @@ public class View3DController extends DelegatedController {
         init3DView();
 
         for (Player p : soccerField.getPlayers()) {
-            // TODO : This action is not safe
+            p.setVisible(false);
+
             if (p.getPositions().size() > 0) {
                 addPlayer(p, p.getPositions().get(0));
             }
@@ -84,10 +85,13 @@ public class View3DController extends DelegatedController {
     }
 
     public void addPlayer(Player player, Position position) throws IOException {
-        PlayerCursor cursor = new PlayerCursor(position);
+        PlayerCursor cursor = new PlayerCursor(position, cameraManager.getCamera());
         playerCursors.put(player, cursor);
 
         // Display the player on the soccer field
+        cursor.setVisible(player.isVisible());
+        cursor.getBillboard().setVisible(player.isVisible());
+
         root3D.getChildren().add(cursor);
         root3D.getChildren().add(cursor.getBillboard());
     }
@@ -175,8 +179,12 @@ public class View3DController extends DelegatedController {
     }
 
     public void displayTrail(Player p) {
+        if (!p.isVisible()) {
+            return;
+        }
+
         int steps = currentMatch.getTrailLength();
-        p.advanceToDate(p.getPositions().get(p.getPositions().size()-5).getTimestamp());
+        p.advanceToDate(p.getPositions().get(p.getPositions().size() - 5).getTimestamp());
 
         if (steps == 0) {
             return;

@@ -20,15 +20,20 @@ public class MainController implements Initializable {
     @FXML
     private View3DController view3DController;
 
+    @FXML
+    private PlayerSelectionController playerSelectionController;
+
     public void loadMatch(SoccerField soccerField) throws IOException {
         view3DController.load(soccerField);
         leftPaneController.load(soccerField);
+        playerSelectionController.load(soccerField);
     }
 
     public void initSubControllers(SoccerStats app) {
         this.app = app;
         view3DController.init(this, app);
         leftPaneController.init(this, app);
+        playerSelectionController.init(this, app);
     }
 
     public void launchCameraReinitialiser() {
