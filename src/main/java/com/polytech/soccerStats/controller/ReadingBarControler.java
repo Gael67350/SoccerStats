@@ -59,6 +59,7 @@ public class ReadingBarControler extends DelegatedController
                 playBtn.setImage(pauseImage);
                 stopBtn.setImage(stopOnImage);
                 currentMatch.togglePlayStatus();
+                setTimerValue();
             }
             else
             {
@@ -97,7 +98,7 @@ public class ReadingBarControler extends DelegatedController
     {
         timer.cancel();
         timer = new Timer(true);
-        timedEvent = new TimedUpdate(currentMatch);
+        timedEvent = new TimedUpdate(currentMatch,mainController);
         timer.scheduleAtFixedRate(timedEvent, 0, (currentMatch.getWaitTime() / currentMatch.getPlaybackSpeed()));
     }
 

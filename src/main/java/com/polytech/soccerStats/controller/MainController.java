@@ -57,6 +57,11 @@ public class MainController implements Initializable
         readingBarController.setTimerValue();
     }
 
+    public void callDisplayUpdate()
+    {
+        leftPaneController.updatePlayer();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {

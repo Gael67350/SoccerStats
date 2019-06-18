@@ -219,13 +219,17 @@ public class LeftPaneController extends DelegatedController
         parametersPane.setDisable(true);
     }
 
-    public void updatePlayer(Player toDisplay)
+    public void updatePlayer()
     {
-        idValue.setText("" + toDisplay.getTagId());
-        totDistanceValue.setText("" + toDisplay.getTotalDistance());
-        headingValue.setText("" + toDisplay.getCurrentInfo().getHeading());
-        directionValue.setText("" + toDisplay.getCurrentInfo().getDirection());
-        energyValue.setText("" + toDisplay.getCurrentInfo().getEnergy());
+        if(currentMatch.getHighlightedPlayer() != null)
+        {
+            idValue.setText("" + currentMatch.getHighlightedPlayer().getTagId());
+            totDistanceValue.setText("" + currentMatch.getHighlightedPlayer().getTotalDistance());
+            headingValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getHeading());
+            directionValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getDirection());
+            energyValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getEnergy());
+        }
+
     }
 
 
