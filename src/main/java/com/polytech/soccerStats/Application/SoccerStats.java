@@ -46,7 +46,7 @@ public class SoccerStats extends Application
 
             public void handle(long currentNanoTime)
             {
-                cumulativeWait += (currentNanoTime - prectime)/1000;
+                cumulativeWait += (currentNanoTime - prectime)/10;
                 prectime = currentNanoTime;
 
                 if(currentGame != null)

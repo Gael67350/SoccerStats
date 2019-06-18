@@ -27,25 +27,25 @@ public class Player
 
     public boolean advanceToDate(Date newDate)
     {
-        if(currentPositionIndex == positions.size()-1)
+        if(currentPositionIndex >= positions.size()-1)
         {
             return false;
         }
         else
         {
-            while(positions.get(currentPositionIndex+1).getTimestamp().before(newDate) || positions.get(currentPositionIndex+1).getTimestamp().equals(newDate))
+            while(currentPositionIndex < positions.size()-1 &&( positions.get(currentPositionIndex+1).getTimestamp().before(newDate) || positions.get(currentPositionIndex+1).getTimestamp().equals(newDate)))
             {
                 currentPositionIndex ++;
                 if(currentPositionIndex > 0)
                 {
                     totalDistance += Math.sqrt(
                                                  Math.pow(
-                                                             positions.get(currentPositionIndex+1).getPosX()
-                                                            -positions.get(currentPositionIndex).getPosX(),2
+                                                             positions.get(currentPositionIndex).getPosX()
+                                                            -positions.get(currentPositionIndex-1).getPosX(),2
                                                          )
                                                 +Math.pow(
-                                                             positions.get(currentPositionIndex+1).getPosY()
-                                                            -positions.get(currentPositionIndex).getPosY(),2
+                                                             positions.get(currentPositionIndex).getPosY()
+                                                            -positions.get(currentPositionIndex-1).getPosY(),2
                                                          )
                                               );
                 }
@@ -56,8 +56,7 @@ public class Player
                                                 +Math.pow(positions.get(currentPositionIndex+1).getPosY(),2)
                                               );
                 }
-
-                heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex+1).getPosX()), (int)(positions.get(currentPositionIndex+1).getPosY()));
+                heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex).getPosX()), (int)(positions.get(currentPositionIndex).getPosY()));
             }
 
             return true;
@@ -136,6 +135,11 @@ public class Player
     public Date getEarliestDate()
     {
         return positions.get(0).getTimestamp();
+    }
+
+    public Date getLastestDate()
+    {
+        return positions.get(positions.size()-1).getTimestamp();
     }
 
     public long getTimeGap()

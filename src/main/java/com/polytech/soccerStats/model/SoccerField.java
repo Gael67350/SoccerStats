@@ -24,6 +24,8 @@ public class SoccerField
 
     private Calendar simulationTime;
 
+    private MainController controller;
+
     private long waitTime = Long.MAX_VALUE;
 
     boolean playStatus = false;
@@ -96,11 +98,11 @@ public class SoccerField
 
             if (endSimulationTime == null)
             {
-                endSimulationTime = current.getEarliestDate();
+                endSimulationTime = current.getLastestDate();
             }
-            else if (endSimulationTime.before(current.getEarliestDate()))
+            else if (endSimulationTime.before(current.getLastestDate()))
             {
-                endSimulationTime = current.getEarliestDate();
+                endSimulationTime = current.getLastestDate();
             }
 
             if (current.getTimeGap() < waitTime)
@@ -125,6 +127,13 @@ public class SoccerField
         for (Player current : playerListing)
         {
             current.advanceToDate(simulationTime.getTime());
+        }
+
+        if(endSimulationTime.before(simulationTime.getTime()))
+        {
+            controller.reinitButtons();
+            playStatus = false;
+            reinitTimeline();
         }
 
     }
@@ -192,5 +201,10 @@ public class SoccerField
         {
             current.reinitTimeLinePosition();
         }
+    }
+
+    public void setController(MainController controller)
+    {
+        this.controller = controller;
     }
 }

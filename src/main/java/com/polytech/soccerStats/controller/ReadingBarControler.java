@@ -38,6 +38,12 @@ public class ReadingBarControler extends DelegatedController
 
     Image pauseImage = new Image(getClass().getClassLoader().getResource("img/pause_btn_image.png").toExternalForm());
 
+    public void reinitButtons()
+    {
+        stopBtn.setImage(stopOffImage);
+        playBtn.setImage(playOnImage);
+    }
+
 
     @Override
     public void init(MainController controller, SoccerStats app)
@@ -70,6 +76,7 @@ public class ReadingBarControler extends DelegatedController
                     currentMatch.togglePlayStatus();
 
                 currentMatch.reinitTimeline();
+                updateTimeLabel();
 
                 stopBtn.setImage(stopOffImage);
                 playBtn.setImage(playOnImage);
@@ -85,6 +92,16 @@ public class ReadingBarControler extends DelegatedController
         readingBar.setDisable(false);
 
         playBtn.setImage(playOnImage);
+    }
+
+    public void updateTimeLabel()
+    {
+        long tmpTime = currentMatch.getPassedTime();
+        long minutes = tmpTime/60000;
+        tmpTime = tmpTime%60000;
+        long secondes = tmpTime/1000;
+        tmpTime = tmpTime%1000;
+        currentTimeLabel.setText(minutes + ":" + secondes + "." + tmpTime);
     }
 
 }
