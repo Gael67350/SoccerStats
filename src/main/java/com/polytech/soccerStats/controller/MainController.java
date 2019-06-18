@@ -72,6 +72,7 @@ public class MainController implements Initializable {
 
     public void clearTrail() {
         view3DController.clearTrail();
+    }
 
     public void callDisplayUpdate()
     {
