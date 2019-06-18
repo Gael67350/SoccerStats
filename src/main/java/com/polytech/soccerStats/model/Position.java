@@ -68,4 +68,18 @@ public class Position implements Comparable<Position> {
     public float getSpeed() {
         return speed;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Position{" +
+                "timestamp=" + timestamp +
+                ", pos=" + pos +
+                ", heading=" + heading +
+                ", direction=" + direction +
+                ", energy=" + energy +
+                ", speed=" + speed +
+                ", relatedPlayer=" + relatedPlayer +
+                '}';
+    }
 }

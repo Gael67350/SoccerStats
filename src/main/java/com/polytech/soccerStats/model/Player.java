@@ -165,4 +165,9 @@ public class Player
                 "tagId=" + tagId +
                 '}';
     }
+
+    public int getCurrentPositionIndex()
+    {
+        return currentPositionIndex;
+    }
 }

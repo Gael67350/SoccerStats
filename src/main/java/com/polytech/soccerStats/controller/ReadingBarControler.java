@@ -2,7 +2,6 @@ package com.polytech.soccerStats.controller;
 
 import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.model.SoccerField;
-import com.polytech.soccerStats.utils.TimedUpdate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -10,13 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import java.util.Timer;
 
 public class ReadingBarControler extends DelegatedController
 {
-
-    Timer timer = new Timer(true);
-    TimedUpdate timedEvent;
 
     @FXML
     private ImageView playBtn;
@@ -59,7 +54,6 @@ public class ReadingBarControler extends DelegatedController
                 playBtn.setImage(pauseImage);
                 stopBtn.setImage(stopOnImage);
                 currentMatch.togglePlayStatus();
-                setTimerValue();
             }
             else
             {
@@ -91,15 +85,6 @@ public class ReadingBarControler extends DelegatedController
         readingBar.setDisable(false);
 
         playBtn.setImage(playOnImage);
-        setTimerValue();
-    }
-
-    public void setTimerValue()
-    {
-        timer.cancel();
-        timer = new Timer(true);
-        timedEvent = new TimedUpdate(currentMatch,mainController);
-        timer.scheduleAtFixedRate(timedEvent, 0, (currentMatch.getWaitTime() / currentMatch.getPlaybackSpeed()));
     }
 
 }

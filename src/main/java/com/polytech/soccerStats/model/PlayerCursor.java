@@ -51,11 +51,10 @@ public class PlayerCursor extends Fx3DGroup
 
     public void moveTo(Position target)
     {
-        Point2D targetedMappedPosition = View3DController.mapPosition(target.getPos());
-        Point2D currentMappedPosition = View3DController.mapPosition(currentPosition.getPos());
-        Point2D newPos = targetedMappedPosition.subtract(currentMappedPosition);
+        Point2D mappedPosition = View3DController.mapPosition(target.getPos());
 
-        set3DTranslate(newPos.getX(), -0.75, newPos.getY());
+        set3DTranslate(mappedPosition.getX(), -0.75, mappedPosition.getY());
+        set3DRotate(0.0,Math.toDegrees(target.getHeading()),0.0);
         currentPosition = target;
     }
 
@@ -97,5 +96,10 @@ public class PlayerCursor extends Fx3DGroup
         objModelImporter.close();
 
         return meshViews;
+    }
+
+    public Position getCurrentPosition()
+    {
+        return currentPosition;
     }
 }

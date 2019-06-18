@@ -1,12 +1,14 @@
 package com.polytech.soccerStats.controller;
 
 import com.polytech.soccerStats.Application.SoccerStats;
+import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable
@@ -52,14 +54,11 @@ public class MainController implements Initializable
         leftPaneController.disablePlayerSection();
     }
 
-    public void updatePlaybackSpeed()
-    {
-        readingBarController.setTimerValue();
-    }
 
     public void callDisplayUpdate()
     {
         leftPaneController.updatePlayer();
+        view3DController.updatePositions();
     }
 
     @Override

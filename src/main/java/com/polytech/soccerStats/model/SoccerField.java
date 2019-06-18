@@ -1,5 +1,7 @@
 package com.polytech.soccerStats.model;
 
+import com.polytech.soccerStats.controller.MainController;
+
 import java.util.*;
 
 public class SoccerField
@@ -25,6 +27,7 @@ public class SoccerField
     private long waitTime = Long.MAX_VALUE;
 
     boolean playStatus = false;
+
 
     public int getRecordCount(Date currentDate)
     {
@@ -118,12 +121,12 @@ public class SoccerField
 
     public void advanceSim()
     {
-        simulationTime.add(Calendar.MILLISECOND, (int) (waitTime));
-
+        simulationTime.add(Calendar.MILLISECOND, (int)(waitTime*playbackSpeed));
         for (Player current : playerListing)
         {
             current.advanceToDate(simulationTime.getTime());
         }
+
     }
 
     public int getPlaybackSpeed()
