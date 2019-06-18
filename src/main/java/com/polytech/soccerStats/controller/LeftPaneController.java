@@ -104,7 +104,7 @@ public class LeftPaneController extends DelegatedController
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,15));
 
         trailLengthSpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50));
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500));
         //spinner event handlers
 
         playbackSpeedSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
