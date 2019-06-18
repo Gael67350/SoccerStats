@@ -54,6 +54,10 @@ public class PlayerCursor extends Fx3DGroup
 
     public void moveTo(Position target)
     {
+        if(getPlayer().getCurrentPositionIndex() == 1 && !getPlayer().isVisible()) {
+            getPlayer().setVisible(true);
+        }
+
         Point2D mappedPosition = View3DController.mapPosition(target.getPos());
 
         set3DTranslate(mappedPosition.getX(), -0.75, mappedPosition.getY());

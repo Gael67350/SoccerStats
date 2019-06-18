@@ -231,6 +231,21 @@ public class LeftPaneController extends DelegatedController
             headingValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getHeading());
             directionValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getDirection());
             energyValue.setText("" + currentMatch.getHighlightedPlayer().getCurrentInfo().getEnergy());
+
+            if (playerHeatmapToggleGroup.getSelectedToggle().equals(noneRD))
+            {
+                mainController.clearHeatMap();
+            }
+            else if (playerHeatmapToggleGroup.getSelectedToggle().equals(colorRD))
+            {
+                mainController.display2DHeatMap(currentMatch.getHighlightedPlayer());
+            }
+            else if (playerHeatmapToggleGroup.getSelectedToggle().equals(histogramRD))
+            {
+                mainController.display3DHeatMap(currentMatch.getHighlightedPlayer());
+            }
+        }else{
+            mainController.clearHeatMap();
         }
 
     }

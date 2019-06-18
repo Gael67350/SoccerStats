@@ -185,7 +185,6 @@ public class View3DController extends DelegatedController {
         }
 
         int steps = currentMatch.getTrailLength();
-        p.advanceToDate(p.getPositions().get(p.getPositions().size() - 5).getTimestamp());
 
         if (steps == 0) {
             return;
@@ -211,29 +210,58 @@ public class View3DController extends DelegatedController {
             Point2D target = mapPosition(p.getPositions().get(i + 1).getPos());
             Point3D target3D = new Point3D(target.getX(), -0.001, target.getY());
 
-            // Create trail
-            Cylinder line = trail.createLine(origin3D, target3D);
-
-            // Set color according to the speed of the player
-            float speed = p.getPositions().get(i).getSpeed();
-
-            if (speed == 0) {
-                line.setMaterial(new PhongMaterial(Color.GREEN));
-            } else if (speed < TRAIL_SLOW_SPEED) {
-                line.setMaterial(new PhongMaterial(Color.BLUE));
-            } else if (speed >= TRAIL_SLOW_SPEED && speed < TRAIL_FAST_SPEED) {
-                line.setMaterial(new PhongMaterial(Color.PURPLE));
-            } else {
-                line.setMaterial(new PhongMaterial(Color.RED));
-            }
+            Cylinder line = createTrailLine(origin3D, target3D, p);
 
             trail.getChildren().add(line);
             steps--;
         }
     }
 
+    public void updateTrail(Player p) {
+        if (!p.isVisible()) {
+            return;
+        }
+
+        if (trail.getChildren().size() > 0) {
+            trail.getChildren().remove(trail.getChildren().size() - 1);
+        }
+
+        if (p.getCurrentPositionIndex() >= 1) {
+            // Map origin and target of the trail
+            Point2D origin = mapPosition(p.getPositions().get(p.getCurrentPositionIndex() - 1).getPos());
+            Point3D origin3D = new Point3D(origin.getX(), -0.001, origin.getY());
+
+            Point2D target = mapPosition(p.getPositions().get(p.getCurrentPositionIndex()).getPos());
+            Point3D target3D = new Point3D(target.getX(), -0.001, target.getY());
+
+            Cylinder line = createTrailLine(origin3D, target3D, p);
+
+            trail.getChildren().add(0, line);
+        }
+    }
+
     public void clearTrail() {
         trail.getChildren().clear();
+    }
+
+    public Cylinder createTrailLine(Point3D origin3D, Point3D target3D, Player p) {
+        // Create trail
+        Cylinder line = trail.createLine(origin3D, target3D);
+
+        // Set color according to the speed of the player
+        float speed = p.getPositions().get(p.getCurrentPositionIndex()).getSpeed();
+
+        if (speed == 0) {
+            line.setMaterial(new PhongMaterial(Color.GREEN));
+        } else if (speed < TRAIL_SLOW_SPEED) {
+            line.setMaterial(new PhongMaterial(Color.BLUE));
+        } else if (speed >= TRAIL_SLOW_SPEED && speed < TRAIL_FAST_SPEED) {
+            line.setMaterial(new PhongMaterial(Color.PURPLE));
+        } else {
+            line.setMaterial(new PhongMaterial(Color.RED));
+        }
+
+        return line;
     }
 
     private void init3DView() {
@@ -290,12 +318,10 @@ public class View3DController extends DelegatedController {
 
         soccerField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event)
-            {
-                if (hasSelectedPlayer())
-                {
+            public void handle(MouseEvent event) {
+                if (hasSelectedPlayer()) {
                     mainController.disableHighlighting();
-                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer() )));
+                    pane3D.fireEvent(new PlayerSelectedEvent(playerCursors.get(currentMatch.getHighlightedPlayer())));
                     removeSelectedPlayer();
                 }
             }
@@ -328,13 +354,11 @@ public class View3DController extends DelegatedController {
         cameraManager.resetCameraPosition();
     }
 
-    public void updatePositions()
-    {
-        for (Player current:currentMatch.getPlayers())
-        {
-            if(current.getCurrentInfo() != null && !current.getCurrentInfo().equals(playerCursors.get(current).getCurrentPosition()))
-            {
+    public void updatePositions() {
+        for (Player current : currentMatch.getPlayers()) {
+            if (current.getCurrentInfo() != null && !current.getCurrentInfo().equals(playerCursors.get(current).getCurrentPosition())) {
                 playerCursors.get(current).moveTo(current.getCurrentInfo());
+                updateTrail(current);
             }
         }
     }
