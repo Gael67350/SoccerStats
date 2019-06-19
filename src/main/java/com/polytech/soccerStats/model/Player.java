@@ -204,5 +204,7 @@ public class Player implements Comparable<Player> {
     public void reinitTimeLinePosition()
     {
         currentPositionIndex = -1;
+        totalDistance = 0;
+        heatMap = new HeatMap();
     }
 }

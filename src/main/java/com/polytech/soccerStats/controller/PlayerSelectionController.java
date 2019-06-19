@@ -58,4 +58,10 @@ public class PlayerSelectionController extends DelegatedController {
 
         playerSelectionListPane.setDisable(false);
     }
+
+    public void emptySection()
+    {
+        playerSelectionList.getChildren().clear();
+        checkBoxMap.clear();
+    }
 }

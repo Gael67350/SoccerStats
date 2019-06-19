@@ -168,8 +168,8 @@ public class LeftPaneController extends DelegatedController
         disableParametersSection();
         topViewBtn.setDisable(true);
 
-        playbackSpeedSpinner.getValueFactory().setValue(null);
-        trailLengthSpinner.getValueFactory().setValue(null);
+        playbackSpeedSpinner.getValueFactory().setValue(1);
+        trailLengthSpinner.getValueFactory().setValue(1);
 
         currentMatch = null;
     }

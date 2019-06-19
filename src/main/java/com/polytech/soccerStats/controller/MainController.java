@@ -30,6 +30,9 @@ public class MainController implements Initializable {
         view3DController.load(soccerField);
         leftPaneController.load(soccerField);
         readingBarController.load(soccerField);
+
+        playerSelectionController.emptySection();
+
         playerSelectionController.load(soccerField);
     }
 
@@ -80,7 +83,7 @@ public class MainController implements Initializable {
         readingBarController.updateTimeSection();
     }
 
-    public void reinitButtons()
+    public void reinitControls()
     {
         readingBarController.reinitButtons();
     }

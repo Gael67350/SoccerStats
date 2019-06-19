@@ -17,7 +17,7 @@ public class SoccerField
 
     private ArrayList<Player> playerListing = new ArrayList<>();
 
-    private Player HighlightedPlayer;
+    private Player highlightedPlayer;
 
     private Date beginSimulationTime;
     private Date endSimulationTime;
@@ -131,7 +131,8 @@ public class SoccerField
 
         if(endSimulationTime.before(simulationTime.getTime()))
         {
-            controller.reinitButtons();
+            highlightedPlayer = null;
+            controller.reinitControls();
             playStatus = false;
             reinitTimeline();
         }
@@ -160,12 +161,12 @@ public class SoccerField
 
     public Player getHighlightedPlayer()
     {
-        return HighlightedPlayer;
+        return highlightedPlayer;
     }
 
     public void setHighlightedPlayer(Player highlightedPlayer)
     {
-        HighlightedPlayer = highlightedPlayer;
+        this.highlightedPlayer = highlightedPlayer;
     }
 
     public void setPlayerListing(ArrayList<Player> playerListing)
