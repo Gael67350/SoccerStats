@@ -1,6 +1,7 @@
 package com.polytech.soccerStats.Application;
 
 import com.polytech.soccerStats.controller.MainController;
+import com.polytech.soccerStats.model.Position;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -46,12 +47,12 @@ public class SoccerStats extends Application
 
             public void handle(long currentNanoTime)
             {
-                cumulativeWait += (currentNanoTime - prectime)/10;
+                cumulativeWait += (currentNanoTime - prectime)/1000000;
                 prectime = currentNanoTime;
 
                 if(currentGame != null)
                 {
-                    if (cumulativeWait >= currentGame.getWaitTime() && currentGame.isPlaying())
+                    if (cumulativeWait >= 50 && currentGame.isPlaying())
                     {
                         currentGame.advanceSim();
                         mainController.callDisplayUpdate();
@@ -84,6 +85,7 @@ public class SoccerStats extends Application
         {
             currentGame = importer.loadData();
             mainController.loadMatch(currentGame);
+            
         }
         catch (Exception e)
         {

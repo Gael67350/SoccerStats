@@ -2,6 +2,7 @@ package com.polytech.soccerStats.tests;
 
 import static org.junit.Assert.*;
 
+import com.polytech.soccerStats.controller.MainController;
 import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.Application.SoccerStats;
 import com.polytech.soccerStats.utils.DataImporter;
@@ -66,7 +67,7 @@ public class SimpleTest
 
         try
         {
-            toCheck.advanceToDate(new SimpleDateFormat(DataImporter.DATE_FORMAT).parse("2013-11-03 18:48:22"));
+            toCheck.advanceToDate(new SimpleDateFormat(DataImporter.DATE_FORMAT).parse("2013-11-03 18:48:22"),new MainController(),false);
         }
         catch(Exception e)
         {
@@ -98,7 +99,7 @@ public class SimpleTest
 
         try
         {
-            toCheck.advanceToDate(new SimpleDateFormat(DataImporter.DATE_FORMAT).parse("2013-11-03 18:48:22"));
+            toCheck.advanceToDate(new SimpleDateFormat(DataImporter.DATE_FORMAT).parse("2013-11-03 18:48:22"),new MainController(),false);
         }
         catch(Exception e)
         {

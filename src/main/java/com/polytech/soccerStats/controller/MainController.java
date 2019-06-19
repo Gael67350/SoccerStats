@@ -1,6 +1,7 @@
 package com.polytech.soccerStats.controller;
 
 import com.polytech.soccerStats.Application.SoccerStats;
+import com.polytech.soccerStats.model.Player;
 import com.polytech.soccerStats.model.SoccerField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -76,7 +77,6 @@ public class MainController implements Initializable {
     public void callDisplayUpdate()
     {
         leftPaneController.updatePlayer();
-        view3DController.updatePositions();
         readingBarController.updateTimeSection();
     }
 
@@ -93,5 +93,10 @@ public class MainController implements Initializable {
     public void initBar()
     {
         readingBarController.initBar();
+    }
+
+    public void updatePlayer(Player toUpdate)
+    {
+        view3DController.updatePositions(toUpdate);
     }
 }

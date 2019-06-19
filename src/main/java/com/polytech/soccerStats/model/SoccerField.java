@@ -113,7 +113,7 @@ public class SoccerField
 
         for (Player current : playerListing)
         {
-            current.advanceToDate(beginSimulationTime);
+            current.advanceToDate(beginSimulationTime,controller,true);
         }
 
         simulationTime = Calendar.getInstance();
@@ -123,10 +123,10 @@ public class SoccerField
 
     public void advanceSim()
     {
-        simulationTime.add(Calendar.MILLISECOND, (int)(waitTime*playbackSpeed));
+        simulationTime.add(Calendar.MILLISECOND, (int)(50*playbackSpeed));
         for (Player current : playerListing)
         {
-            current.advanceToDate(simulationTime.getTime());
+            current.advanceToDate(simulationTime.getTime(),controller,true);
         }
 
         if(endSimulationTime.before(simulationTime.getTime()))
@@ -225,7 +225,7 @@ public class SoccerField
 
         for (Player current : playerListing)
         {
-            current.advanceToDate(simulationTime.getTime());
+            current.advanceToDate(simulationTime.getTime(),controller,false);
         }
     }
 }

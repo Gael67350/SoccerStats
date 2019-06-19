@@ -1,5 +1,8 @@
 package com.polytech.soccerStats.model;
 
+import com.polytech.soccerStats.controller.MainController;
+import sun.applet.Main;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -26,7 +29,7 @@ public class Player implements Comparable<Player> {
 
     //simulation related methods
 
-    public boolean advanceToDate(Date newDate)
+    public boolean advanceToDate(Date newDate, MainController mainController,boolean update)
     {
         if(currentPositionIndex >= positions.size()-1)
         {
@@ -34,7 +37,8 @@ public class Player implements Comparable<Player> {
         }
         else
         {
-            while(currentPositionIndex < positions.size()-1 &&( positions.get(currentPositionIndex+1).getTimestamp().before(newDate) || positions.get(currentPositionIndex+1).getTimestamp().equals(newDate)))
+
+            while(currentPositionIndex < positions.size()-1)
             {
                 currentPositionIndex ++;
                 if(currentPositionIndex > 0)
@@ -53,23 +57,25 @@ public class Player implements Comparable<Player> {
                 else
                 {
                     totalDistance += Math.sqrt(
-                            Math.pow(positions.get(currentPositionIndex + 1).getPosX(), 2)
-                                    + Math.pow(positions.get(currentPositionIndex + 1).getPosY(), 2)
+                            Math.pow(positions.get(currentPositionIndex).getPosX(), 2)
+                                    + Math.pow(positions.get(currentPositionIndex).getPosY(), 2)
                     );
                 }
                 heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex).getPosX()), (int)(positions.get(currentPositionIndex).getPosY()));
+
+                if(update)
+                {
+                    mainController.updatePlayer(this);
+                }
+
+                if(currentPositionIndex < positions.size()-1 && positions.get(currentPositionIndex+1).getTimestamp().getTime() > newDate.getTime())
+                {
+                    return true;
+                }
             }
 
             return true;
         }
-    }
-
-    public boolean rewind(Date revTime) {
-        totalDistance = 0;
-        heatMap = new HeatMap();
-        currentPositionIndex = -1;
-
-        return advanceToDate(revTime);
     }
 
     public Position getCurrentInfo() {
