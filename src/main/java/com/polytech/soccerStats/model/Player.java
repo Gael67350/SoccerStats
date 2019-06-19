@@ -1,5 +1,8 @@
 package com.polytech.soccerStats.model;
 
+import com.polytech.soccerStats.controller.MainController;
+import sun.applet.Main;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -26,43 +29,53 @@ public class Player implements Comparable<Player> {
 
     //simulation related methods
 
-    public boolean advanceToDate(Date newDate) {
-        if (currentPositionIndex == positions.size() - 1) {
+    public boolean advanceToDate(Date newDate, MainController mainController,boolean update)
+    {
+        if(currentPositionIndex >= positions.size()-1)
+        {
             return false;
-        } else {
-            while (positions.get(currentPositionIndex + 1).getTimestamp().before(newDate) || positions.get(currentPositionIndex + 1).getTimestamp().equals(newDate)) {
-                currentPositionIndex++;
-                if (currentPositionIndex > 0) {
+        }
+        else
+        {
+
+            while(currentPositionIndex < positions.size()-1)
+            {
+                currentPositionIndex ++;
+                if(currentPositionIndex > 0)
+                {
                     totalDistance += Math.sqrt(
-                            Math.pow(
-                                    positions.get(currentPositionIndex + 1).getPosX()
-                                            - positions.get(currentPositionIndex).getPosX(), 2
-                            )
-                                    + Math.pow(
-                                    positions.get(currentPositionIndex + 1).getPosY()
-                                            - positions.get(currentPositionIndex).getPosY(), 2
-                            )
-                    );
-                } else {
+                                                 Math.pow(
+                                                             positions.get(currentPositionIndex).getPosX()
+                                                            -positions.get(currentPositionIndex-1).getPosX(),2
+                                                         )
+                                                +Math.pow(
+                                                             positions.get(currentPositionIndex).getPosY()
+                                                            -positions.get(currentPositionIndex-1).getPosY(),2
+                                                         )
+                                              );
+                }
+                else
+                {
                     totalDistance += Math.sqrt(
-                            Math.pow(positions.get(currentPositionIndex + 1).getPosX(), 2)
-                                    + Math.pow(positions.get(currentPositionIndex + 1).getPosY(), 2)
+                            Math.pow(positions.get(currentPositionIndex).getPosX(), 2)
+                                    + Math.pow(positions.get(currentPositionIndex).getPosY(), 2)
                     );
                 }
+                heatMap.incrementAtPoint((int)(positions.get(currentPositionIndex).getPosX()), (int)(positions.get(currentPositionIndex).getPosY()));
 
-                heatMap.incrementAtPoint((int) (positions.get(currentPositionIndex + 1).getPosX()), (int) (positions.get(currentPositionIndex + 1).getPosY()));
+                if(update)
+                {
+                    mainController.updatePlayer(this);
+                }
+
+                if(currentPositionIndex < positions.size()-1 && positions.get(currentPositionIndex+1).getTimestamp().getTime() > newDate.getTime())
+                {
+                    return true;
+                }
             }
 
             return true;
         }
-    }
-
-    public boolean rewind(Date revTime) {
-        totalDistance = 0;
-        heatMap = new HeatMap();
-        currentPositionIndex = -1;
-
-        return advanceToDate(revTime);
     }
 
     public Position getCurrentInfo() {
@@ -141,6 +154,11 @@ public class Player implements Comparable<Player> {
         return positions.get(0).getTimestamp();
     }
 
+    public Date getLastestDate()
+    {
+        return positions.get(positions.size()-1).getTimestamp();
+    }
+
     public long getTimeGap()
     {
         return positions.get(1).getTimestamp().getTime() - positions.get(0).getTimestamp().getTime();
@@ -165,7 +183,7 @@ public class Player implements Comparable<Player> {
                 "tagId=" + tagId +
                 '}';
     }
-
+  
     @Override
     public int compareTo(Player o) {
         if (this.tagId > o.tagId) {
@@ -179,8 +197,14 @@ public class Player implements Comparable<Player> {
         return 0;
     }
 
-    public int getCurrentPositionIndex()
+    public int getCurrentPositionIndex() {
+        return currentPositionIndex;  
+    }
+
+    public void reinitTimeLinePosition()
     {
-        return currentPositionIndex;
+        currentPositionIndex = -1;
+        totalDistance = 0;
+        heatMap = new HeatMap();
     }
 }

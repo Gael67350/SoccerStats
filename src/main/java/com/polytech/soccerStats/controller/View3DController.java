@@ -354,12 +354,10 @@ public class View3DController extends DelegatedController {
         cameraManager.resetCameraPosition();
     }
 
-    public void updatePositions() {
-        for (Player current : currentMatch.getPlayers()) {
-            if (current.getCurrentInfo() != null && !current.getCurrentInfo().equals(playerCursors.get(current).getCurrentPosition())) {
-                playerCursors.get(current).moveTo(current.getCurrentInfo());
-                updateTrail(current);
-            }
+    public void updatePositions(Player toUpdate) {
+        if (toUpdate.getCurrentInfo() != null && !toUpdate.getCurrentInfo().equals(playerCursors.get(toUpdate).getCurrentPosition())) {
+            playerCursors.get(toUpdate).moveTo(toUpdate.getCurrentInfo());
+            updateTrail(toUpdate);
         }
     }
 }

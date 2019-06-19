@@ -101,7 +101,7 @@ public class LeftPaneController extends DelegatedController
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1,15));
 
         trailLengthSpinner.setValueFactory(
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50));
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500));
         //spinner event handlers
 
         playbackSpeedSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
@@ -144,6 +144,7 @@ public class LeftPaneController extends DelegatedController
                 app.openFile(selected.getPath());
 
                 currentMatch.initialiseSimulation();
+                mainController.initBar();
                 enableParametersSection();
                 topViewBtn.setDisable(false);
             }
@@ -167,8 +168,8 @@ public class LeftPaneController extends DelegatedController
         disableParametersSection();
         topViewBtn.setDisable(true);
 
-        playbackSpeedSpinner.getValueFactory().setValue(null);
-        trailLengthSpinner.getValueFactory().setValue(null);
+        playbackSpeedSpinner.getValueFactory().setValue(1);
+        trailLengthSpinner.getValueFactory().setValue(1);
 
         currentMatch = null;
     }

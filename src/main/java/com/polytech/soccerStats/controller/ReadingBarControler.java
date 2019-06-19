@@ -38,6 +38,12 @@ public class ReadingBarControler extends DelegatedController
 
     Image pauseImage = new Image(getClass().getClassLoader().getResource("img/pause_btn_image.png").toExternalForm());
 
+    public void reinitButtons()
+    {
+        stopBtn.setImage(stopOffImage);
+        playBtn.setImage(playOnImage);
+    }
+
 
     @Override
     public void init(MainController controller, SoccerStats app)
@@ -70,10 +76,17 @@ public class ReadingBarControler extends DelegatedController
                     currentMatch.togglePlayStatus();
 
                 currentMatch.reinitTimeline();
+                updateTimeSection();
 
                 stopBtn.setImage(stopOffImage);
                 playBtn.setImage(playOnImage);
             }
+        });
+
+        currentTimeSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+        {
+           if(currentTimeSlider.getValue() != currentMatch.getPassedTime())
+               currentMatch.jumpTo((int)(currentTimeSlider.getValue()));
         });
     }
 
@@ -87,4 +100,22 @@ public class ReadingBarControler extends DelegatedController
         playBtn.setImage(playOnImage);
     }
 
+    public void updateTimeSection()
+    {
+        long tmpTime = currentMatch.getPassedTime();
+
+        currentTimeSlider.setValue(tmpTime);
+
+        long minutes = tmpTime/60000;
+        tmpTime = tmpTime%60000;
+        long secondes = tmpTime/1000;
+        tmpTime = tmpTime%1000;
+        currentTimeLabel.setText(minutes + ":" + secondes + "." + tmpTime);
+    }
+
+    public void initBar()
+    {
+        currentTimeSlider.setMin(0);
+        currentTimeSlider.setMax(this.currentMatch.getEndSimulationTime().getTime()-this.currentMatch.getBeginSimulationTime().getTime());
+    }
 }

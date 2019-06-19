@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -27,9 +26,13 @@ public class MainController implements Initializable {
     private ReadingBarControler readingBarController;
 
     public void loadMatch(SoccerField soccerField) throws IOException {
+        soccerField.setController(this);
         view3DController.load(soccerField);
         leftPaneController.load(soccerField);
         readingBarController.load(soccerField);
+
+        playerSelectionController.emptySection();
+
         playerSelectionController.load(soccerField);
     }
 
@@ -77,11 +80,26 @@ public class MainController implements Initializable {
     public void callDisplayUpdate()
     {
         leftPaneController.updatePlayer();
-        view3DController.updatePositions();
+        readingBarController.updateTimeSection();
+    }
+
+    public void reinitControls()
+    {
+        readingBarController.reinitButtons();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void initBar()
+    {
+        readingBarController.initBar();
+    }
+
+    public void updatePlayer(Player toUpdate)
+    {
+        view3DController.updatePositions(toUpdate);
     }
 }

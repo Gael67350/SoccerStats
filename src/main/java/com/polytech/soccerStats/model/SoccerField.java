@@ -17,12 +17,14 @@ public class SoccerField
 
     private ArrayList<Player> playerListing = new ArrayList<>();
 
-    private Player HighlightedPlayer;
+    private Player highlightedPlayer;
 
     private Date beginSimulationTime;
     private Date endSimulationTime;
 
     private Calendar simulationTime;
+
+    private MainController controller;
 
     private long waitTime = Long.MAX_VALUE;
 
@@ -96,11 +98,11 @@ public class SoccerField
 
             if (endSimulationTime == null)
             {
-                endSimulationTime = current.getEarliestDate();
+                endSimulationTime = current.getLastestDate();
             }
-            else if (endSimulationTime.before(current.getEarliestDate()))
+            else if (endSimulationTime.before(current.getLastestDate()))
             {
-                endSimulationTime = current.getEarliestDate();
+                endSimulationTime = current.getLastestDate();
             }
 
             if (current.getTimeGap() < waitTime)
@@ -111,7 +113,7 @@ public class SoccerField
 
         for (Player current : playerListing)
         {
-            current.advanceToDate(beginSimulationTime);
+            current.advanceToDate(beginSimulationTime,controller,true);
         }
 
         simulationTime = Calendar.getInstance();
@@ -121,10 +123,18 @@ public class SoccerField
 
     public void advanceSim()
     {
-        simulationTime.add(Calendar.MILLISECOND, (int)(waitTime*playbackSpeed));
+        simulationTime.add(Calendar.MILLISECOND, (int)(50*playbackSpeed));
         for (Player current : playerListing)
         {
-            current.advanceToDate(simulationTime.getTime());
+            current.advanceToDate(simulationTime.getTime(),controller,true);
+        }
+
+        if(endSimulationTime.before(simulationTime.getTime()))
+        {
+            highlightedPlayer = null;
+            controller.reinitControls();
+            playStatus = false;
+            reinitTimeline();
         }
 
     }
@@ -151,12 +161,12 @@ public class SoccerField
 
     public Player getHighlightedPlayer()
     {
-        return HighlightedPlayer;
+        return highlightedPlayer;
     }
 
     public void setHighlightedPlayer(Player highlightedPlayer)
     {
-        HighlightedPlayer = highlightedPlayer;
+        this.highlightedPlayer = highlightedPlayer;
     }
 
     public void setPlayerListing(ArrayList<Player> playerListing)
@@ -187,5 +197,36 @@ public class SoccerField
     public void reinitTimeline()
     {
         simulationTime.setTimeInMillis(beginSimulationTime.getTime());
+
+        for (Player current:playerListing)
+        {
+            current.reinitTimeLinePosition();
+        }
+    }
+
+    public void setController(MainController controller)
+    {
+        this.controller = controller;
+    }
+
+    public Date getBeginSimulationTime()
+    {
+        return beginSimulationTime;
+    }
+
+    public Date getEndSimulationTime()
+    {
+        return endSimulationTime;
+    }
+
+    public void jumpTo(int value)
+    {
+        reinitTimeline();
+        simulationTime.add(Calendar.MILLISECOND,value);
+
+        for (Player current : playerListing)
+        {
+            current.advanceToDate(simulationTime.getTime(),controller,false);
+        }
     }
 }
